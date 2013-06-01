@@ -5,8 +5,11 @@ package
 	import com.jacobalbano.punkutils.*;
 	import com.thaumaturgistgames.flakit.Library;
 	import com.thaumaturgistgames.welcomehome.DungeonGenerator;
+	import com.thaumaturgistgames.welcomehome.Player;
+	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
 	import net.flashpunk.Engine;
+	import net.flashpunk.utils.Draw;
 	import net.flashpunk.utils.Key;
 	
 	/**
@@ -41,7 +44,14 @@ package
 			Game.instance.onReload = restart;
 			//	init stuff here
 			
-			FP.stage.addChild(new DungeonGenerator());
+			//FP.stage.addChild(new DungeonGenerator());
+			
+			var platform:Entity = new Entity(0, 200);
+			platform.setHitbox(500, 20);
+			platform.type = "temp";
+			oWorld.add(platform);
+			
+			oWorld.add(new Player(50, 50));
 		}
 	}
 

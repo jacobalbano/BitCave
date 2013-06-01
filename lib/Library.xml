@@ -2,7 +2,16 @@
 <!--Created with LibraryBuilder for FLAkit -->
 <!--http://www.thaumaturgistgames.com/FLAkit-->
 <library>
-    <images />
+    <images>
+        <image>graphics/dude.png</image>
+        <image>graphics/inventory.png</image>
+        <image>graphics/kindling.png</image>
+        <image>graphics/lipstick.png</image>
+        <image>graphics/loveLetter.png</image>
+        <image>graphics/photo.png</image>
+        <image>graphics/ring.png</image>
+        <image>graphics/roses.png</image>
+    </images>
     <sounds />
     <xmls>
         <xml>Library.xml</xml>

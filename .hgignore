@@ -1,3 +1,6 @@
 syntax: glob
 obj
 bin
+tools
+lib/Library.xml
+src/EmbeddedAssets.as
