@@ -44,7 +44,7 @@ package com.thaumaturgistgames.welcomehome
 			img.play(animToPlay);
 			
 			this.graphic = img;
-			//this.setHitbox(
+			this.setHitbox(12, 32, -10);
 			
 			this.x = x;
 			this.y = y;

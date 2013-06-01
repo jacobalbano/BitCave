@@ -5,6 +5,7 @@ package
 	import com.jacobalbano.punkutils.*;
 	import com.thaumaturgistgames.flakit.Library;
 	import com.thaumaturgistgames.welcomehome.DungeonGenerator;
+	import com.thaumaturgistgames.welcomehome.Inventory;
 	import com.thaumaturgistgames.welcomehome.Player;
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
@@ -52,6 +53,8 @@ package
 			oWorld.add(platform);
 			
 			oWorld.add(new Player(50, 50));
+			
+			var inv:Inventory = oWorld.add(new Inventory()) as Inventory;
 		}
 	}
 
