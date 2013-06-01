@@ -4,6 +4,7 @@ package
 	import com.jacobalbano.slang.*;
 	import com.jacobalbano.punkutils.*;
 	import com.thaumaturgistgames.flakit.Library;
+	import com.thaumaturgistgames.welcomehome.DungeonGenerator;
 	import net.flashpunk.FP;
 	import net.flashpunk.Engine;
 	import net.flashpunk.utils.Key;
@@ -27,6 +28,7 @@ package
 			super.init();
 			
 			FP.world = oWorld = new OgmoWorld();
+			restart();
 		}
 		
 		private function restart():void 
@@ -39,7 +41,7 @@ package
 			Game.instance.onReload = restart;
 			//	init stuff here
 			
-			
+			FP.stage.addChild(new DungeonGenerator());
 		}
 	}
 

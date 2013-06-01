@@ -31,6 +31,7 @@ package com.thaumaturgistgames.welcomehome
         public const UP:uint = 3;
 		static private const ROCK:Number = 0x5F5F5F;
 		static private const WATER:Number = 0x0080FF;
+		static private const AIR:Number = 0x000000;
         
         public var data:BitmapData;
         public var bitmap:Bitmap = new Bitmap();
@@ -119,7 +120,7 @@ package com.thaumaturgistgames.welcomehome
 						data.setPixel(i,j, ROCK);
 					}
 					
-					if (data.getPixel(i, j) == 0x000000)
+					if (data.getPixel(i, j) == AIR)
 					{
 						bottom = j;
 					}
@@ -133,14 +134,14 @@ package com.thaumaturgistgames.welcomehome
 					if (j + 1 < data.height
 						&& j - 1 >= 0
 						&& data.getPixel(i, j) == ROCK
-						&& data.getPixel(i, j + 1) == 0x000000
-						&& data.getPixel(i, j - 1) == 0x000000)
+						&& data.getPixel(i, j + 1) == AIR
+						&& data.getPixel(i, j - 1) == AIR)
 					{
 						data.setPixel(i, j, 0xFF0000);
 						trace("found weak rock", i, j);
 					}
 					
-					if (data.getPixel(i, j) == 0x000000 && j >= bottom - 15)
+					if (data.getPixel(i, j) == AIR && j >= bottom - 15)
 					{
 						data.setPixel(i, j, WATER);
 					}
@@ -161,7 +162,7 @@ package com.thaumaturgistgames.welcomehome
 						continue;
 					}
 					
-					if (data.getPixel(i, j) == ROCK && data.getPixel(i, j + 1) == 0x000000)
+					if (data.getPixel(i, j) == ROCK && data.getPixel(i, j + 1) == AIR)
 					{
 						startWaterfall(i, j + 1);
 						done = true;
@@ -179,7 +180,12 @@ package com.thaumaturgistgames.welcomehome
 			{
 				if (data.getPixel(i, j) == ROCK)
 				{
-					if (i > 0 && 
+					if (i > 0 && data.getPixel(i - 1, j) == AIR)
+					{
+						startWaterfall(i - 1, j);
+					}
+					
+					break;
 				}
 				else
 				{
@@ -353,12 +359,12 @@ package com.thaumaturgistgames.welcomehome
         {
             if (x < 0 || y < 0 || x >= data.width || y >= data.height)
                 return false;
-            return data.getPixel(x, y) > 0x000000;
+            return data.getPixel(x, y) > AIR;
         }
         
         public function setTile(data:BitmapData, x:int, y:int, solid:Boolean):void
         {
-            data.setPixel(x, y, solid ? 0xFFFFFF : 0x000000);
+            data.setPixel(x, y, solid ? 0xFFFFFF : AIR);
         }
     }
 }
