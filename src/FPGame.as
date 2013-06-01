@@ -56,9 +56,10 @@ package
 			oWorld.add(platform);
 			
 			var dungeon:DungeonGenerator = new DungeonGenerator();
-			oWorld.add(dungeon.entity);
+			oWorld.add(dungeon.cave);
 			var p:Point = dungeon.spawnPoint;
 			oWorld.add(new Player(p.x, p.y));
+			oWorld.add(dungeon.water);
 		}
 	}
 

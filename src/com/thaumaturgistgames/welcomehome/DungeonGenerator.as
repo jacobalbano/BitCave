@@ -13,6 +13,7 @@ package com.thaumaturgistgames.welcomehome
 	import flash.ui.Keyboard;
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
+	import net.flashpunk.graphics.TiledSpritemap;
 	import net.flashpunk.graphics.Tilemap;
 	import net.flashpunk.masks.Grid;
     
@@ -347,7 +348,27 @@ package com.thaumaturgistgames.welcomehome
 			return p;
 		}
 		
-		public function get entity():Entity 
+		public function get water():Entity
+		{
+			var tiles:Tilemap = new Tilemap(new BitmapData(TILE_SIZE, TILE_SIZE, false, WATER), data.width * TILE_SIZE, data.height * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+			for (var i:int = 0; i < data.width; i++) 
+			{
+				for (var j:int = 0; j < data.height; j++) 
+				{
+					if (data.getPixel(i, j) == WATER)
+					{
+						tiles.setTile(i, j, 0);
+					}
+				}
+			}
+			
+			tiles.alpha = 0.75;
+			var e:Entity = new Entity(0, 0, tiles, tiles.createGrid([0]));
+			e.type = "water";
+			return e;
+		}
+		
+		public function get cave():Entity 
 		{
 			var tiles:Tilemap = new Tilemap(Library.getImage("graphics.tiles.png").bitmapData, data.width * TILE_SIZE, data.height * TILE_SIZE, 32, 32);
 			
@@ -359,22 +380,15 @@ package com.thaumaturgistgames.welcomehome
 					
 					switch (pixel) 
 					{
-						case WATER:
-							tiles.setTile(i, j, 0);
-							break;
-						case AIR:
+						case ROCK:
 							tiles.setTile(i, j, 1);
 							break;
-						case ROCK:
-							tiles.setTile(i, j, 2);
-							break;
 						default:
-							//trace("loose rock");
 					}
 				}
 			}
 			
-			var e:Entity = new Entity(0, 0, tiles, tiles.createGrid([2]))
+			var e:Entity = new Entity(0, 0, tiles, tiles.createGrid([1]))
 			e.type = "cave";
 			
 			return e;
