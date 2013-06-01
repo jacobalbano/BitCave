@@ -6,9 +6,13 @@ package
 	import com.thaumaturgistgames.flakit.Library;
 	import com.thaumaturgistgames.welcomehome.DungeonGenerator;
 	import com.thaumaturgistgames.welcomehome.Player;
+	import flash.display.BitmapData;
+	import flash.geom.Point;
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
 	import net.flashpunk.Engine;
+	import net.flashpunk.graphics.Tilemap;
+	import net.flashpunk.masks.Grid;
 	import net.flashpunk.utils.Draw;
 	import net.flashpunk.utils.Key;
 	
@@ -44,14 +48,16 @@ package
 			Game.instance.onReload = restart;
 			//	init stuff here
 			
-			//FP.stage.addChild(new DungeonGenerator());
-			
+			oWorld.removeAll();
 			var platform:Entity = new Entity(0, 200);
 			platform.setHitbox(500, 20);
 			platform.type = "temp";
 			oWorld.add(platform);
 			
-			oWorld.add(new Player(50, 50));
+			var dungeon:DungeonGenerator = new DungeonGenerator();
+			oWorld.add(dungeon.entity);
+			var p:Point = dungeon.spawnPoint;
+			oWorld.add(new Player(p.x * 32 + 16, (p.y - 1) * 32 + 16));
 		}
 	}
 

@@ -1,5 +1,6 @@
 package com.thaumaturgistgames.welcomehome
 {
+	import com.thaumaturgistgames.flakit.Library;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
     import flash.geom.Matrix;
@@ -10,16 +11,21 @@ package com.thaumaturgistgames.welcomehome
 	import flash.geom.Point;
 	import flash.text.TextField;
 	import flash.ui.Keyboard;
+	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
+	import net.flashpunk.graphics.Tilemap;
+	import net.flashpunk.masks.Grid;
     
     //CLICK TO GENERATE A NEW MAZE!
     public class DungeonGenerator extends Sprite
     {
 		private var keys:Array;
 		private var tf:TextField;
+		private var roofs:Array;
+		private var floors:Array;
         //Dungeon settings
-        public const MAZE_WIDTH:int = 15;
-        public const MAZE_HEIGHT:int = 15;
+        public const MAZE_WIDTH:int = 5;
+        public const MAZE_HEIGHT:int = 5;
         public const DUNGEON_EXPAND:int = 3;
         public const PASS_1:int = 0;
         public const PASS_2:int = 1;
@@ -31,82 +37,19 @@ package com.thaumaturgistgames.welcomehome
         public const LEFT:uint = 1;
         public const DOWN:uint = 2;
         public const UP:uint = 3;
-		static private const ROCK:Number = 0x5F5F5F;
-		static private const WATER:Number = 0x0080FF;
-		static private const AIR:Number = 0x000000;
+		static public const ROCK:Number = 0x5F5F5F;
+		static public const WATER:Number = 0x0080FF;
+		static public const AIR:Number = 0x000000;
+		static private const TILE_SIZE:Number = 32;
         
         public var data:BitmapData;
         public var bitmap:Bitmap = new Bitmap();
         
         public function DungeonGenerator()
         {
-            bitmap.scaleX = bitmap.scaleY = DUNGEON_SCALE;
-            addChild(bitmap);
-			
-			keys = [];
-			keys.length = 300;
-            
-			tf = new TextField();
-			addChild(tf);
-			tf.mouseEnabled = false;
-			
-			addEventListener(MouseEvent.CLICK, onClick);
-			addEventListener(Event.ENTER_FRAME, _frame);
-			addEventListener(Event.ADDED, _added);
             generate();
         }
 		
-		//{ region events
-		private function _added(e:Event):void 
-		{
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, _down);
-			stage.addEventListener(KeyboardEvent.KEY_UP, _up);
-		}
-		
-		private function _frame(e:Event):void 
-		{
-			if (keys[Keyboard.A])
-			{
-				x += 10;
-			}
-			
-			if (keys[Keyboard.D])
-			{
-				x -= 10;
-			}
-			
-			if (keys[Keyboard.W])
-			{
-				y += 10;
-			}
-			
-			if (keys[Keyboard.S])
-			{
-				y -= 10;
-			}
-			
-			tf.text = ["\n\n", Math.floor((mouseX) / DUNGEON_SCALE), Math.floor((mouseY) / DUNGEON_SCALE)].join(" ");
-			
-			tf.x = mouseX;
-			tf.y = mouseY;
-		}
-		
-		private function _down(e:KeyboardEvent):void 
-		{
-			keys[e.keyCode] = true;
-		}
-		
-		private function _up(e:KeyboardEvent):void 
-		{
-			keys[e.keyCode] = false;
-		}
-		
-        public function onClick(e:MouseEvent):void
-        {
-            generate();
-        }
-		//} endregion
-			
         public function generate():void
         {
             data = createMaze(MAZE_WIDTH, MAZE_HEIGHT);
@@ -129,7 +72,8 @@ package com.thaumaturgistgames.welcomehome
 				}
 			}
 			
-			var roofs:Array = [];
+			roofs = [];
+			floors = [];
 			
 			for (j = 0; j < data.height; j++)
 			{
@@ -154,12 +98,12 @@ package com.thaumaturgistgames.welcomehome
 					if (data.getPixel(i, j) == ROCK && data.getPixel(i, j + 1) == AIR)
 					{
 						roofs.push(new Point(i, j));
+						continue;
 					}
 				}
 			}
 			
 			var count:int = 1;
-			trace(roofs.length);
 			FP.shuffle(roofs);
 			roofs.length = FP.rand(20) + 5;
 			for (var k:int = 0; k < roofs.length; k++) 
@@ -168,7 +112,22 @@ package com.thaumaturgistgames.welcomehome
 				startWaterfall(p.x, p.y, false);
 			}
 			
-            bitmap.bitmapData = data;
+			for (j = 0; j < data.height; j++)
+			{
+				for (i = 0; i < data.width; i++)
+				{
+					if (i > 0 && j > 0 && data.getPixel(i, j) == ROCK && data.getPixel(i, j - 1) == AIR)
+					{
+						floors.push(new Point(i, j));
+						continue;
+					}
+				}
+			}
+			
+			if (floors.length == 0)
+			{
+				generate();
+			}
         }
 		
 		private function startWaterfall(i:int, j:int, startHorizontal:Boolean = false):void 
@@ -254,7 +213,7 @@ package com.thaumaturgistgames.welcomehome
             var copy:BitmapData = data.clone();
             var w:int = data.width - 1;
             var h:int = data.height - 1;
-            var fill:Array = new Array();
+            var fill:Array = [];
             
             for (var x:int = 0; x < data.width; x++)
             {
@@ -272,7 +231,7 @@ package com.thaumaturgistgames.welcomehome
                         fill.push(getTile(data, x + 1, y - 1));
                         fill.push(getTile(data, x - 1, y + 1));
                         
-                        if (fill[int(Math.random() * fill.length)])
+                        if (fill[int(FP.random * fill.length)])
                             setTile(copy, x, y, true);
                         else
                             setTile(copy, x, y, false);
@@ -300,8 +259,8 @@ package com.thaumaturgistgames.welcomehome
             data.fillRect(data.rect, 0xFFFFFFFF);
             
             //Pick random start point
-            var x:int = 1 + int(Math.random() * (width / 2)) * 2;
-            var y:int = 1 + int(Math.random() * (height / 2)) * 2;
+            var x:int = 1 + int(FP.random * (width / 2)) * 2;
+            var y:int = 1 + int(FP.random * (height / 2)) * 2;
             xStack.push(x);
             yStack.push(y);
             
@@ -323,7 +282,7 @@ package com.thaumaturgistgames.welcomehome
                 
                 if (sides.length > 0)
                 {
-                    var side:int = sides[int(Math.random() * sides.length)];
+                    var side:int = sides[int(FP.random * sides.length)];
                     switch (side)
                     {
                         case RIGHT:
@@ -378,5 +337,46 @@ package com.thaumaturgistgames.welcomehome
         {
             data.setPixel(x, y, solid ? 0xFFFFFF : AIR);
         }
+		
+		public function get spawnPoint():Point
+		{
+			trace(floors.length);
+			var floor:Point = FP.choose(floors);
+			
+			return floor;
+		}
+		
+		public function get entity():Entity 
+		{
+			var tiles:Tilemap = new Tilemap(Library.getImage("graphics.tiles.png").bitmapData, data.width * TILE_SIZE, data.height * TILE_SIZE, 32, 32);
+			
+			for (var i:int = 0; i < data.width; i++) 
+			{
+				for (var j:int = 0; j < data.height; j++) 
+				{
+					var pixel:uint = data.getPixel(i, j);
+					
+					switch (pixel) 
+					{
+						case WATER:
+							tiles.setTile(i, j, 0);
+							break;
+						case AIR:
+							tiles.setTile(i, j, 1);
+							break;
+						case ROCK:
+							tiles.setTile(i, j, 2);
+							break;
+						default:
+							//trace("loose rock");
+					}
+				}
+			}
+			
+			var e:Entity = new Entity(0, 0, tiles, tiles.createGrid([2]))
+			e.type = "cave";
+			
+			return e;
+		}
     }
 }

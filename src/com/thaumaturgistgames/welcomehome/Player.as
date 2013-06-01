@@ -44,7 +44,9 @@ package com.thaumaturgistgames.welcomehome
 			img.play(animToPlay);
 			
 			this.graphic = img;
-			//this.setHitbox(
+			img.centerOO();
+			this.setHitbox(12, 30);
+			centerOrigin();
 			
 			this.x = x;
 			this.y = y;
@@ -59,11 +61,15 @@ package com.thaumaturgistgames.welcomehome
 			
 			colliders = new Vector.<String>();
 			colliders.push("temp");
+			colliders.push("cave");
 		}
 		
 		override public function update():void 
 		{
 			super.update();
+			
+			FP.camera.x = x - FP.halfWidth;
+			FP.camera.y = y - FP.halfHeight;
 			
 			movement.x = 0;
 			
