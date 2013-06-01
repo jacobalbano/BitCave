@@ -4,7 +4,7 @@
 	import com.thaumaturgistgames.flakit.Library;
 	
 	[Frame(factoryClass = "Preloader")]
-	[SWF(width = "800", height = "600")]
+	[SWF(width = "640", height = "480")]
 	public class Game extends Engine 
 	{
 		public static var instance:Game;

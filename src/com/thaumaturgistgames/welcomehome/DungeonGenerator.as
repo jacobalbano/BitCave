@@ -1,5 +1,6 @@
 package com.thaumaturgistgames.welcomehome
 {
+	import com.thaumaturgistgames.flakit.Engine;
 	import com.thaumaturgistgames.flakit.Library;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
@@ -13,6 +14,7 @@ package com.thaumaturgistgames.welcomehome
 	import flash.ui.Keyboard;
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
+	import net.flashpunk.graphics.Image;
 	import net.flashpunk.graphics.TiledSpritemap;
 	import net.flashpunk.graphics.Tilemap;
 	import net.flashpunk.masks.Grid;
@@ -40,6 +42,7 @@ package com.thaumaturgistgames.welcomehome
 		static public const ROCK:Number = 0x5F5F5F;
 		static public const WATER:Number = 0x0080FF;
 		static public const AIR:Number = 0x000000;
+		static public const CAMPFIRE:Number = 0xFF9900;
 		static private const TILE_SIZE:Number = 32;
         
         public var data:BitmapData;
@@ -126,6 +129,15 @@ package com.thaumaturgistgames.welcomehome
 			if (floors.length == 0)
 			{
 				generate();
+			}
+			
+			// Spawn campfires
+			FP.shuffle(floors);
+			floors.length = 6;
+			for (var l:int = 0; l < floors.length; l++) 
+			{
+				p = floors[l];
+				data.setPixel(p.x, p.y, CAMPFIRE);
 			}
         }
 		
@@ -362,7 +374,7 @@ package com.thaumaturgistgames.welcomehome
 				}
 			}
 			
-			tiles.alpha = 0.75;
+			tiles.alpha = 0.5;
 			var e:Entity = new Entity(0, 0, tiles, tiles.createGrid([0]));
 			e.type = "water";
 			return e;
@@ -392,6 +404,48 @@ package com.thaumaturgistgames.welcomehome
 			e.type = "cave";
 			
 			return e;
+		}
+		
+		public function getMap():Entity
+		{
+			var bmp:BitmapData = data.clone();
+			
+			//for (var i:int = 0; i < bmp.width; i++) 
+			//{
+				//for (var j:int = 0; j < bmp.height; j++) 
+				//{
+					//switch (data.getPixel(i, j)) 
+					//{
+						//case ROCK:
+							//break;
+						//default:
+							//bmp.setPixel(i, j, 0x000000);
+							//break;
+					//}
+				//}
+			//}
+			
+			var e:Entity = new Entity(0, 0, new Image(bmp))
+			
+			return e;
+		}
+		
+		public function get campfires():Vector.<Campfire>
+		{
+			var result:Vector.<Campfire> = new Vector.<Campfire>();
+			
+			for (var i:int = 0; i < data.width; i++) 
+			{
+				for (var j:int = 0; j < data.height; j++) 
+				{
+					if (data.getPixel(i, j) == CAMPFIRE)
+					{
+						result.push(new Campfire(i * TILE_SIZE, j * TILE_SIZE));
+					}
+				}
+			}
+			
+			return result;
 		}
     }
 }
