@@ -29,6 +29,8 @@ package com.thaumaturgistgames.welcomehome
         public const LEFT:uint = 1;
         public const DOWN:uint = 2;
         public const UP:uint = 3;
+		static private const ROCK:Number = 0x5F5F5F;
+		static private const WATER:Number = 0x0080FF;
         
         public var data:BitmapData;
         public var bitmap:Bitmap = new Bitmap();
@@ -106,6 +108,7 @@ package com.thaumaturgistgames.welcomehome
         {
             data = createMaze(MAZE_WIDTH, MAZE_HEIGHT);
             data = carveDungeon(data, DUNGEON_EXPAND, PASS_1, PASS_2, PASS_3);
+			var bottom:int = 0;
 			
 			for (var j:int = 0; j < data.height; j++)
 			{
@@ -113,7 +116,12 @@ package com.thaumaturgistgames.welcomehome
 				{
 					if (data.getPixel(i, j) == 0xFFFFFF)
 					{
-						data.setPixel(i,j, 0x5F5F5F);
+						data.setPixel(i,j, ROCK);
+					}
+					
+					if (data.getPixel(i, j) == 0x000000)
+					{
+						bottom = j;
 					}
 				}
 			}
@@ -124,18 +132,62 @@ package com.thaumaturgistgames.welcomehome
 				{
 					if (j + 1 < data.height
 						&& j - 1 >= 0
-						&& data.getPixel(i, j) == 0x5F5F5F
+						&& data.getPixel(i, j) == ROCK
 						&& data.getPixel(i, j + 1) == 0x000000
 						&& data.getPixel(i, j - 1) == 0x000000)
 					{
 						data.setPixel(i, j, 0xFF0000);
 						trace("found weak rock", i, j);
 					}
+					
+					if (data.getPixel(i, j) == 0x000000 && j >= bottom - 15)
+					{
+						data.setPixel(i, j, WATER);
+					}
+				}
+			}
+			
+			var done:Boolean = false;
+			
+			for (j = 0; j < data.height; j++)
+			{
+				if (done)
+					break;
+				
+				for (i = 0; i < data.width; i++)
+				{
+					if (j + 1 > data.height || j - 1 < 0)
+					{
+						continue;
+					}
+					
+					if (data.getPixel(i, j) == ROCK && data.getPixel(i, j + 1) == 0x000000)
+					{
+						startWaterfall(i, j + 1);
+						done = true;
+						break;
+					}
 				}
 			}
 			
             bitmap.bitmapData = data;
         }
+		
+		private function startWaterfall(i:int, j:int):void 
+		{
+			while (true)
+			{
+				if (data.getPixel(i, j) == ROCK)
+				{
+					if (i > 0 && 
+				}
+				else
+				{
+					data.setPixel(i, j, WATER);
+					++j;
+				}
+			}
+		}
         
         public function carveDungeon(maze:BitmapData, expand:int, ...mins):BitmapData
         {
