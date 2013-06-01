@@ -57,7 +57,7 @@ package
 			var dungeon:DungeonGenerator = new DungeonGenerator();
 			oWorld.add(dungeon.entity);
 			var p:Point = dungeon.spawnPoint;
-			oWorld.add(new Player(p.x * 32 + 16, (p.y - 1) * 32 + 16));
+			oWorld.add(new Player(p.x, p.y));
 		}
 	}
 

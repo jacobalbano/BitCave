@@ -24,13 +24,12 @@ package com.thaumaturgistgames.welcomehome
 		private var roofs:Array;
 		private var floors:Array;
         //Dungeon settings
-        public const MAZE_WIDTH:int = 5;
-        public const MAZE_HEIGHT:int = 5;
+        public const MAZE_WIDTH:int = 10;
+        public const MAZE_HEIGHT:int = 7;
         public const DUNGEON_EXPAND:int = 3;
         public const PASS_1:int = 0;
         public const PASS_2:int = 1;
 		public const PASS_3:int = 1;
-        public const DUNGEON_SCALE:int = 1;
         
         //Directional constants
         public const RIGHT:uint = 0;
@@ -43,7 +42,6 @@ package com.thaumaturgistgames.welcomehome
 		static private const TILE_SIZE:Number = 32;
         
         public var data:BitmapData;
-        public var bitmap:Bitmap = new Bitmap();
         
         public function DungeonGenerator()
         {
@@ -340,10 +338,13 @@ package com.thaumaturgistgames.welcomehome
 		
 		public function get spawnPoint():Point
 		{
-			trace(floors.length);
-			var floor:Point = FP.choose(floors);
+			var p:Point = FP.choose(floors).clone();
+			p.x *= TILE_SIZE;
+			p.y *= TILE_SIZE;
 			
-			return floor;
+			p.x += TILE_SIZE / 2;
+			p.y -= TILE_SIZE / 2;
+			return p;
 		}
 		
 		public function get entity():Entity 
