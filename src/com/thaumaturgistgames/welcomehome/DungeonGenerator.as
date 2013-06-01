@@ -7,8 +7,10 @@ package com.thaumaturgistgames.welcomehome
     import flash.display.BitmapData;
     import flash.display.Bitmap;
     import flash.display.Sprite;
+	import flash.geom.Point;
 	import flash.text.TextField;
 	import flash.ui.Keyboard;
+	import net.flashpunk.FP;
     
     //CLICK TO GENERATE A NEW MAZE!
     public class DungeonGenerator extends Sprite
@@ -22,7 +24,7 @@ package com.thaumaturgistgames.welcomehome
         public const PASS_1:int = 0;
         public const PASS_2:int = 1;
 		public const PASS_3:int = 1;
-        public const DUNGEON_SCALE:int = 4;
+        public const DUNGEON_SCALE:int = 1;
         
         //Directional constants
         public const RIGHT:uint = 0;
@@ -127,6 +129,8 @@ package com.thaumaturgistgames.welcomehome
 				}
 			}
 			
+			var roofs:Array = [];
+			
 			for (j = 0; j < data.height; j++)
 			{
 				for (i = 0; i < data.width; i++)
@@ -138,59 +142,67 @@ package com.thaumaturgistgames.welcomehome
 						&& data.getPixel(i, j - 1) == AIR)
 					{
 						data.setPixel(i, j, 0xFF0000);
-						trace("found weak rock", i, j);
+						continue;
 					}
 					
 					if (data.getPixel(i, j) == AIR && j >= bottom - 15)
 					{
 						data.setPixel(i, j, WATER);
-					}
-				}
-			}
-			
-			var done:Boolean = false;
-			
-			for (j = 0; j < data.height; j++)
-			{
-				if (done)
-					break;
-				
-				for (i = 0; i < data.width; i++)
-				{
-					if (j + 1 > data.height || j - 1 < 0)
-					{
 						continue;
 					}
 					
 					if (data.getPixel(i, j) == ROCK && data.getPixel(i, j + 1) == AIR)
 					{
-						startWaterfall(i, j + 1);
-						done = true;
-						break;
+						roofs.push(new Point(i, j));
 					}
 				}
+			}
+			
+			var count:int = 1;
+			trace(roofs.length);
+			FP.shuffle(roofs);
+			roofs.length = FP.rand(20) + 5;
+			for (var k:int = 0; k < roofs.length; k++) 
+			{
+				var p:Point = roofs[k];
+				startWaterfall(p.x, p.y, false);
 			}
 			
             bitmap.bitmapData = data;
         }
 		
-		private function startWaterfall(i:int, j:int):void 
+		private function startWaterfall(i:int, j:int, startHorizontal:Boolean = false):void 
 		{
+			if (!startHorizontal)
+			{
+				data.setPixel(i, j + 1, WATER);
+				++j;
+			}
+			
 			while (true)
 			{
-				if (data.getPixel(i, j) == ROCK)
+				if (i > data.width || j > data.height)
+				{
+					return;
+				}
+				
+				if (data.getPixel(i, j + 1) == ROCK)
 				{
 					if (i > 0 && data.getPixel(i - 1, j) == AIR)
 					{
-						startWaterfall(i - 1, j);
+						startWaterfall(i - 1, j - 1, true);
+					}
+					
+					if (i < data.width && data.getPixel(i + 1, j) == AIR)
+					{
+						startWaterfall(i + 1, j - 1, true);
 					}
 					
 					break;
 				}
 				else
 				{
-					data.setPixel(i, j, WATER);
-					++j;
+					data.setPixel(i, ++j, WATER);
 				}
 			}
 		}
