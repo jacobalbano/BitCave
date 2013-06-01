@@ -43,6 +43,8 @@ package com.thaumaturgistgames.welcomehome
 			_isOpen = false;
 			
 			items = new Vector.<InventoryItem>();
+			
+			graphic.scrollX = graphic.scrollY = 0;
 		}
 		
 		override public function added():void 
@@ -55,6 +57,8 @@ package com.thaumaturgistgames.welcomehome
 			addItem("graphics.ring.png");
 			addItem("graphics.lipstick.png");
 			addItem("graphics.roses.png");
+			
+			layer = world.layerNearest
 		}
 		
 		override public function update():void 

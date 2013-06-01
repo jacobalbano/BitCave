@@ -37,6 +37,8 @@ package com.thaumaturgistgames.welcomehome
 			
 			largeView = new Image(Library.getImage(imgFilename).bitmapData);
 			previewing = false;
+			
+			graphic.scrollX = graphic.scrollY = 0;
 		}
 		
 		override public function added():void 
@@ -49,6 +51,7 @@ package com.thaumaturgistgames.welcomehome
 			largeView.y = FP.screen.height / 2;
 			largeView.scale = 6;
 			largeView.alpha = 0;
+			largeView.scrollX = largeView.scrollY = 0;
 		}
 		
 		override public function update():void 

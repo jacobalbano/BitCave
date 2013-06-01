@@ -28,6 +28,8 @@ package com.thaumaturgistgames.welcomehome
 		private var colliders:Vector.<String>;
 		private var animToPlay:String;
 		
+		private var inventory:Inventory;
+		
 		public function Player(x:Number, y:Number) 
 		{
 			super();
@@ -62,6 +64,13 @@ package com.thaumaturgistgames.welcomehome
 			colliders = new Vector.<String>();
 			colliders.push("temp");
 			colliders.push("cave");
+		}
+		
+		override public function added():void 
+		{
+			super.added();
+			
+			inventory = world.add(new Inventory()) as Inventory;
 		}
 		
 		override public function update():void 
