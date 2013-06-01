@@ -5,6 +5,7 @@ package
 	import com.jacobalbano.punkutils.*;
 	import com.thaumaturgistgames.flakit.Library;
 	import com.thaumaturgistgames.welcomehome.DungeonGenerator;
+	import com.thaumaturgistgames.welcomehome.Inventory;
 	import com.thaumaturgistgames.welcomehome.Player;
 	import flash.display.BitmapData;
 	import flash.geom.Point;
@@ -57,6 +58,8 @@ package
 			var dungeon:DungeonGenerator = new DungeonGenerator();
 			oWorld.add(dungeon.entity);
 			var p:Point = dungeon.spawnPoint;
+			
+			var inv:Inventory = oWorld.add(new Inventory()) as Inventory;
 			oWorld.add(new Player(p.x * 32 + 16, (p.y - 1) * 32 + 16));
 		}
 	}
