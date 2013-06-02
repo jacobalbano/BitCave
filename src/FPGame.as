@@ -84,6 +84,11 @@ package
 				oWorld.add(memento);
 			}
 			
+			for each (var bound:Entity in dungeon.bounds)
+			{
+				oWorld.add(bound);
+			}
+			
 			var map:Entity = dungeon.getMap();
 			map.graphic.scrollX = map.graphic.scrollY = 0;
 			oWorld.add(map);

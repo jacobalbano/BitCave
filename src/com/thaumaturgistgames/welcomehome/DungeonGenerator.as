@@ -478,5 +478,39 @@ package com.thaumaturgistgames.welcomehome
 			
 			return result;
 		}
+		
+		public function get bounds():Vector.<Entity>
+		{
+			var result:Vector.<Entity> = new Vector.<Entity>();
+			
+			// 		Left
+			var lt:Tilemap = new Tilemap(Library.getImage("graphics.tiles.png").bitmapData, TILE_SIZE * 20, TILE_SIZE * data.height, TILE_SIZE, TILE_SIZE);
+			lt.floodFill(0, 0, 1);
+			
+			var l:Entity = new Entity( -lt.width, 0, lt);
+			l.setHitbox(lt.width, TILE_SIZE, lt.width - TILE_SIZE);
+			
+			//		Right
+			var rt:Tilemap = new Tilemap(Library.getImage("graphics.tiles.png").bitmapData, TILE_SIZE * 20, TILE_SIZE * data.height, TILE_SIZE, TILE_SIZE);
+			rt.floodFill(0, 0, 1);
+			
+			var r:Entity = new Entity((data.width * TILE_SIZE), 0, rt);
+			r.setHitbox(TILE_SIZE, rt.height);
+			
+			//		Bottom
+			var bt:Tilemap = new Tilemap(Library.getImage("graphics.tiles.png").bitmapData, TILE_SIZE * data.width, TILE_SIZE * 20, TILE_SIZE, TILE_SIZE);
+			bt.floodFill(0, 0, 1);
+			
+			var b:Entity = new Entity(0, data.height * TILE_SIZE, bt);
+			b.setHitbox(bt.width, TILE_SIZE);
+			
+			b.type = l.type = r.type = "cave";
+			
+			result.push(l);
+			result.push(r);
+			result.push(b);
+			
+			return result;
+		}
     }
 }
