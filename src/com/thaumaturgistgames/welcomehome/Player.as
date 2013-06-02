@@ -70,7 +70,7 @@ package com.thaumaturgistgames.welcomehome
 		{
 			super.added();
 			
-			inventory = world.add(new Inventory()) as Inventory;
+			 world.add(inventory = new Inventory());
 		}
 		
 		override public function update():void 
@@ -105,20 +105,28 @@ package com.thaumaturgistgames.welcomehome
 			
 			movement.y += gravity;
 			
-			movement.x = FP.clamp(movement.x, -MAX_SPEED, MAX_SPEED);
-			movement.y = FP.clamp(movement.y, -MAX_SPEED, MAX_SPEED);
+			var max:Number = MAX_SPEED;
+			
+			if (collide("water", x, y))
+			{
+				max = max / 4;
+			}
+			
+			movement.x = FP.clamp(movement.x, -max, max);
+			movement.y = FP.clamp(movement.y, -max, max);	
+			
 			moveBy(movement.x, movement.y, colliders, true);
 			
 			if (movement.x < 0)
 			{
-				(graphic as Image).flipped = true;
+				graphic["flipped"] = true;
 			}
 			else if (movement.x > 0)
 			{
-				(graphic as Image).flipped = false;
+				graphic["flipped"] = false;
 			}
 			
-			(graphic as Spritemap).play(animToPlay);
+			graphic["play"](animToPlay);
 		}
 		
 		override public function moveCollideY(e:Entity):Boolean 

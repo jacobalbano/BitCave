@@ -351,6 +351,7 @@ package com.thaumaturgistgames.welcomehome
 		public function get water():Entity
 		{
 			var tiles:Tilemap = new Tilemap(new BitmapData(TILE_SIZE, TILE_SIZE, false, WATER), data.width * TILE_SIZE, data.height * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+			var grid:Grid = new Grid(data.width * TILE_SIZE, data.height * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 			for (var i:int = 0; i < data.width; i++) 
 			{
 				for (var j:int = 0; j < data.height; j++) 
@@ -358,12 +359,13 @@ package com.thaumaturgistgames.welcomehome
 					if (data.getPixel(i, j) == WATER)
 					{
 						tiles.setTile(i, j, 0);
+						grid.setTile(i, j, true);
 					}
 				}
 			}
 			
 			tiles.alpha = 0.75;
-			var e:Entity = new Entity(0, 0, tiles, tiles.createGrid([0]));
+			var e:Entity = new Entity(0, 0, tiles, grid);
 			e.type = "water";
 			return e;
 		}
