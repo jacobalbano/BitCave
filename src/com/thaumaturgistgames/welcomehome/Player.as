@@ -22,6 +22,7 @@ package com.thaumaturgistgames.welcomehome
 		private var gravity:Number;
 		private var speed:Number;
 		private const MAX_SPEED:Number = 7;
+		private var maxSpeed:Number;
 		private var jetpackForce:Number;
 		private var waterForce:Number;
 		
@@ -65,6 +66,7 @@ package com.thaumaturgistgames.welcomehome
 			gravity = .85;
 			waterForce = .6;
 			jetpackForce = 1;
+			maxSpeed = MAX_SPEED;
 			
 			canMove = true;
 			canJump = false;
@@ -96,7 +98,6 @@ package com.thaumaturgistgames.welcomehome
 				if (Input.check(Key.D))
 				{
 					movement.x += speed;
-					trace(inventory.itemsCollected);
 				}
 				
 				if (Input.check(Key.A))
@@ -129,30 +130,32 @@ package com.thaumaturgistgames.welcomehome
 				{
 					movement.y -= jetpackForce;
 					animToPlay = "jetpackOn";
+					maxSpeed = MAX_SPEED;
+				}
 			}
 			
 			if (Input.pressed(Key.SPACE))
 			{
-				jetpackSfx.loop(0.5);
+				if (canJetpack)
+				{
+					jetpackSfx.loop(0.5);
+				}
 			}
 			
 			if (Input.released(Key.SPACE))
 			{
 				jetpackSfx.stop();
-				}
 			}
 			
 			movement.y += gravity;
-			
-			var max:Number = MAX_SPEED;
 			
 			//if (collide("water", x, y))
 			//{
 				//max = max / 2;
 			//}
 			
-			movement.x = FP.clamp(movement.x, -max, max);
-			movement.y = FP.clamp(movement.y, -max, max);	
+			movement.x = FP.clamp(movement.x, -maxSpeed, maxSpeed);
+			movement.y = FP.clamp(movement.y, -maxSpeed, maxSpeed);	
 			
 			moveBy(movement.x, movement.y, colliders, true);
 			
@@ -191,6 +194,8 @@ package com.thaumaturgistgames.welcomehome
 				canJetpack = false;
 			}
 			
+			maxSpeed = MAX_SPEED;
+			
 			movement.y = 0;
 			
 			return super.moveCollideY(e);
@@ -201,7 +206,8 @@ package com.thaumaturgistgames.welcomehome
 			if (canJump)
 			{
 				canJump = false;
-				movement.y = -32;
+				movement.y = -12;
+				maxSpeed = 100;
 			}
 		}
 		
