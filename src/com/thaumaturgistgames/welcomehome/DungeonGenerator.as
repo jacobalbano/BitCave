@@ -392,7 +392,7 @@ package com.thaumaturgistgames.welcomehome
 		
 		public function get cave():Entity 
 		{
-			var tiles:Tilemap = new Tilemap(Library.getImage("graphics.tiles.png").bitmapData, data.width * TILE_SIZE, data.height * TILE_SIZE, 32, 32);
+			var tiles:Tilemap = new Tilemap(Library.getImage("graphics.dungeon.tiles.png").bitmapData, data.width * TILE_SIZE, data.height * TILE_SIZE, 32, 32);
 			
 			for (var i:int = 0; i < data.width; i++) 
 			{
@@ -416,7 +416,7 @@ package com.thaumaturgistgames.welcomehome
 			return e;
 		}
 		
-		public function getMap():Entity
+		public function get minimap():Image
 		{
 			var bmp:BitmapData = data.clone();
 			
@@ -435,9 +435,7 @@ package com.thaumaturgistgames.welcomehome
 				//}
 			//}
 			
-			var e:Entity = new Entity(0, 0, new Image(bmp))
-			
-			return e;
+			return new Image(bmp);
 		}
 		
 		public function get campfires():Vector.<Campfire>
@@ -484,21 +482,21 @@ package com.thaumaturgistgames.welcomehome
 			var result:Vector.<Entity> = new Vector.<Entity>();
 			
 			// 		Left
-			var lt:Tilemap = new Tilemap(Library.getImage("graphics.tiles.png").bitmapData, TILE_SIZE * 20, TILE_SIZE * data.height, TILE_SIZE, TILE_SIZE);
+			var lt:Tilemap = new Tilemap(Library.getImage("graphics.dungeon.tiles.png").bitmapData, TILE_SIZE * 20, TILE_SIZE * data.height, TILE_SIZE, TILE_SIZE);
 			lt.floodFill(0, 0, 1);
 			
 			var l:Entity = new Entity( -lt.width, 0, lt);
 			l.setHitbox(lt.width, TILE_SIZE, lt.width - TILE_SIZE);
 			
 			//		Right
-			var rt:Tilemap = new Tilemap(Library.getImage("graphics.tiles.png").bitmapData, TILE_SIZE * 20, TILE_SIZE * data.height, TILE_SIZE, TILE_SIZE);
+			var rt:Tilemap = new Tilemap(Library.getImage("graphics.dungeon.tiles.png").bitmapData, TILE_SIZE * 20, TILE_SIZE * data.height, TILE_SIZE, TILE_SIZE);
 			rt.floodFill(0, 0, 1);
 			
 			var r:Entity = new Entity((data.width * TILE_SIZE), 0, rt);
 			r.setHitbox(TILE_SIZE, rt.height);
 			
 			//		Bottom
-			var bt:Tilemap = new Tilemap(Library.getImage("graphics.tiles.png").bitmapData, TILE_SIZE * data.width, TILE_SIZE * 20, TILE_SIZE, TILE_SIZE);
+			var bt:Tilemap = new Tilemap(Library.getImage("graphics.dungeon.tiles.png").bitmapData, TILE_SIZE * data.width, TILE_SIZE * 20, TILE_SIZE, TILE_SIZE);
 			bt.floodFill(0, 0, 1);
 			
 			var b:Entity = new Entity(0, data.height * TILE_SIZE, bt);

@@ -22,7 +22,7 @@ package com.thaumaturgistgames.welcomehome
 		{
 			this.x = x;
 			this.y = y;
-			this.graphic = new Image(Library.getImage("graphics.kindling.png").bitmapData);
+			this.graphic = new Image(Library.getImage("graphics.dungeon.kindling.png").bitmapData);
 			(graphic as Image).scale = .5;
 			type = "campfire";
 			setHitbox(32, 32);

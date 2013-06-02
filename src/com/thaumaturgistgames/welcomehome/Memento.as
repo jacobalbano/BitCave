@@ -21,7 +21,7 @@ package com.thaumaturgistgames.welcomehome
 		
 		public function Memento(name:String, x:Number, y:Number) 
 		{
-			filename = "graphics." + name + ".png";
+			filename = "graphics.dungeon." + name + ".png";
 			
 			var img:Image = new Image(Library.getImage(filename).bitmapData);
 			img.scale = .5;

@@ -3,21 +3,28 @@
 <!--http://www.thaumaturgistgames.com/FLAkit-->
 <library>
     <images>
-        <image>graphics/backdrop1.png</image>
-        <image>graphics/backdrop2.png</image>
-        <image>graphics/backdropStatic.png</image>
         <image>graphics/dude.png</image>
         <image>graphics/houseExterior.png</image>
         <image>graphics/houseInterior.png</image>
         <image>graphics/inventory.png</image>
-        <image>graphics/kindling.png</image>
-        <image>graphics/lipstick.png</image>
-        <image>graphics/loveLetter.png</image>
         <image>graphics/map.png</image>
-        <image>graphics/photo.png</image>
-        <image>graphics/ring.png</image>
-        <image>graphics/roses.png</image>
-        <image>graphics/tiles.png</image>
+        <image>graphics/house/indoor.png</image>
+        <image>graphics/house/letter.png</image>
+        <image>graphics/house/lipstick.png</image>
+        <image>graphics/house/outdoor.png</image>
+        <image>graphics/house/photo.png</image>
+        <image>graphics/house/ring.png</image>
+        <image>graphics/house/roses.png</image>
+        <image>graphics/dungeon/backdrop1.png</image>
+        <image>graphics/dungeon/backdrop2.png</image>
+        <image>graphics/dungeon/backdropStatic.png</image>
+        <image>graphics/dungeon/kindling.png</image>
+        <image>graphics/dungeon/lipstick.png</image>
+        <image>graphics/dungeon/loveLetter.png</image>
+        <image>graphics/dungeon/photo.png</image>
+        <image>graphics/dungeon/ring.png</image>
+        <image>graphics/dungeon/roses.png</image>
+        <image>graphics/dungeon/tiles.png</image>
     </images>
     <sounds>
         <sound>audio/jetpack.mp3</sound>
