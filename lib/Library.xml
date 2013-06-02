@@ -7,6 +7,8 @@
         <image>graphics/backdrop2.png</image>
         <image>graphics/backdropStatic.png</image>
         <image>graphics/dude.png</image>
+        <image>graphics/houseExterior.png</image>
+        <image>graphics/houseInterior.png</image>
         <image>graphics/inventory.png</image>
         <image>graphics/kindling.png</image>
         <image>graphics/lipstick.png</image>
@@ -14,11 +16,9 @@
         <image>graphics/photo.png</image>
         <image>graphics/ring.png</image>
         <image>graphics/roses.png</image>
-        <image>graphics/testBackdrop.png</image>
         <image>graphics/tiles.png</image>
     </images>
     <sounds>
-        <sound>audio/hit.mp3</sound>
         <sound>audio/jetpack.mp3</sound>
     </sounds>
     <xmls>
