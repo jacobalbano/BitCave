@@ -54,11 +54,11 @@ package com.thaumaturgistgames.welcomehome
 			super.added();
 			
 			// TODO: Take these functions out, and call them when the player picks them up in the world, yo.
-			addItem("graphics.photo.png");
-			addItem("graphics.loveLetter.png");
-			addItem("graphics.ring.png");
-			addItem("graphics.lipstick.png");
-			addItem("graphics.roses.png");
+			//addItem("graphics.photo.png");
+			//addItem("graphics.loveLetter.png");
+			//addItem("graphics.ring.png");
+			//addItem("graphics.lipstick.png");
+			//addItem("graphics.roses.png");
 			
 			layer = world.layerNearest
 		}

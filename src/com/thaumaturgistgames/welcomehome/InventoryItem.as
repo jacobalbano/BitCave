@@ -4,6 +4,7 @@ package com.thaumaturgistgames.welcomehome
 	import com.thaumaturgistgames.flakit.Library;
 	import com.thaumaturgistgames.flakit.loader.ImageLoader;
 	import flash.display.Graphics;
+	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
 	import net.flashpunk.Graphic;
 	import net.flashpunk.graphics.Image;
@@ -21,6 +22,7 @@ package com.thaumaturgistgames.welcomehome
 		private var slot:uint;
 		
 		private var largeView:Image;
+		private var largeViewEnt:Entity;
 		private var previewing:Boolean;
 		
 		public function InventoryItem(imgFilename:String, slot:uint, parent:Inventory) 
@@ -45,13 +47,19 @@ package com.thaumaturgistgames.welcomehome
 		{
 			super.added();
 			
-			world.addGraphic(largeView);
+			largeViewEnt = world.addGraphic(largeView);
 			largeView.centerOrigin();
 			largeView.x = FP.screen.width / 2;
 			largeView.y = FP.screen.height / 2;
 			largeView.scale = 6;
 			largeView.alpha = 0;
 			largeView.scrollX = largeView.scrollY = 0;
+		}
+		
+		override public function removed():void 
+		{
+			world.(largeViewEnt);
+			super.removed();
 		}
 		
 		override public function update():void 

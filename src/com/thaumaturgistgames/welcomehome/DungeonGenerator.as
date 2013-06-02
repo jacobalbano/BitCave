@@ -2,6 +2,7 @@ package com.thaumaturgistgames.welcomehome
 {
 	import com.thaumaturgistgames.flakit.Engine;
 	import com.thaumaturgistgames.flakit.Library;
+	import com.thaumaturgistgames.flakit.loader.ImageLoader;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
     import flash.geom.Matrix;
@@ -43,6 +44,7 @@ package com.thaumaturgistgames.welcomehome
 		static public const WATER:Number = 0x0080FF;
 		static public const AIR:Number = 0x000000;
 		static public const CAMPFIRE:Number = 0xFF9900;
+		static public const MEMENTO:Number = 0xFF00FF;
 		static private const TILE_SIZE:Number = 32;
         
         public var data:BitmapData;
@@ -133,11 +135,17 @@ package com.thaumaturgistgames.welcomehome
 			
 			// Spawn campfires
 			FP.shuffle(floors);
-			floors.length = 6;
-			for (var l:int = 0; l < floors.length; l++) 
+			for (var l:int = 0; l < 6; l++) 
 			{
 				p = floors[l];
 				data.setPixel(p.x, p.y, CAMPFIRE);
+			}
+			
+			// Spawn mementos
+			for (var m:int = 6; m < 11; m++)
+			{
+				p = floors[m];
+				data.setPixel(p.x, p.y, MEMENTO);
 			}
         }
 		
@@ -443,6 +451,27 @@ package com.thaumaturgistgames.welcomehome
 					if (data.getPixel(i, j) == CAMPFIRE)
 					{
 						result.push(new Campfire(i * TILE_SIZE, j * TILE_SIZE));
+					}
+				}
+			}
+			
+			return result;
+		}
+		
+		public function get mementos():Vector.<Entity>
+		{
+			var result:Vector.<Entity> = new Vector.<Entity>();
+			var assets:Array = new Array("lipstick", "loveLetter", "photo", "ring", "roses");
+			FP.shuffle(assets);
+			
+			for (var i:int = 0; i < data.width; i++) 
+			{
+				for (var j:int = 0; j < data.height; j++) 
+				{
+					if (data.getPixel(i, j) == MEMENTO)
+					{
+						var m:Memento = new Memento(assets.pop(), i * TILE_SIZE + (TILE_SIZE / 2), j * TILE_SIZE + (TILE_SIZE / 2));
+						result.push(m);
 					}
 				}
 			}

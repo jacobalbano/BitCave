@@ -79,9 +79,15 @@ package
 				oWorld.add(fire);
 			}
 			
+			for each (var memento:Entity in dungeon.mementos) 
+			{
+				oWorld.add(memento);
+			}
+			
 			var map:Entity = dungeon.getMap();
 			map.graphic.scrollX = map.graphic.scrollY = 0;
 			oWorld.add(map);
+			
 		}
 	}
 

@@ -39,11 +39,12 @@ package com.thaumaturgistgames.welcomehome
 		{
 			super();
 			name = "player";
+			type = "player";
 			
 			var img:Spritemap = new Spritemap(Library.getImage("graphics.dude.png").bitmapData, 64, 64);
 			img.add("idle", [0]);
 			img.add("walk", [0, 1, 2, 3], 8);
-			img.add("pickup", [4, 5, 6, 7, 6, 5, 4, 0], 6, false);
+			img.add("pickup", [7]);
 			img.add("jetpackOn", [8, 9, 10, 11], 8);
 			img.add("jetpackIdle", [12]);
 			img.scale = .5;
@@ -162,6 +163,21 @@ package com.thaumaturgistgames.welcomehome
 			else if (movement.x > 0)
 			{
 				graphic["flipped"] = false;
+			}
+			
+			var m:Memento = collide("memento", x, y) as Memento;
+			if (m)
+			{
+				if (Input.check(Key.E))
+				{
+					animToPlay = "pickup";
+				}
+				
+				if (Input.released(Key.E))
+				{
+					inventory.addItem(m.filename);
+					world.remove(m);
+				}
 			}
 			
 			graphic["play"](animToPlay);
