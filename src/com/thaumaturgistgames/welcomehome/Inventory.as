@@ -6,11 +6,13 @@ package com.thaumaturgistgames.welcomehome
 	import flash.display.Graphics;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import flash.ui.MouseCursor;
 	import flash.utils.Dictionary;
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
 	import net.flashpunk.Graphic;
 	import net.flashpunk.graphics.Image;
+	import net.flashpunk.Sfx;
 	import net.flashpunk.Tween;
 	import net.flashpunk.tweens.misc.VarTween;
 	import net.flashpunk.utils.Ease;
@@ -65,14 +67,25 @@ package com.thaumaturgistgames.welcomehome
 		{
 			super.update();
 			
-			if (Input.mousePressed && collidePoint(x, y, Input.mouseX, Input.mouseY))
+			if (collidePoint(x, y, Input.mouseX, Input.mouseY))
 			{
-				_isOpen = !_isOpen;
+				//Input.mouseCursor = MouseCursor.BUTTON;
 				
-				var tween:VarTween = new VarTween(null, Tween.ONESHOT);
-				tween.tween(this, "y", (_isOpen ? openedPos.y : closedPos.y), 0.8, Ease.bounceOut);			
-				addTween(tween, true);
+				if (Input.mousePressed)
+				{
+					_isOpen = !_isOpen;
+					
+					(graphic as Image).clipRect.x = isOpen ? 256 : 0;
+					
+					var tween:VarTween = new VarTween(null, Tween.ONESHOT);
+					tween.tween(this, "y", (_isOpen ? openedPos.y : closedPos.y), 0.8, Ease.bounceOut);			
+					addTween(tween, true);
+				}
 			}
+			//else
+			//{
+			//	Input.mouseCursor = MouseCursor.ARROW;
+			//}
 			
 			for each (var i:InventoryItem in items)
 			{
@@ -95,6 +108,11 @@ package com.thaumaturgistgames.welcomehome
 		public function get isOpen():Boolean
 		{
 			return _isOpen;
+		}
+		
+		public function get itemsCollected():uint
+		{
+			return items.length;
 		}
 	}
 

@@ -8,6 +8,7 @@ package com.thaumaturgistgames.welcomehome
 	import net.flashpunk.graphics.Spritemap;
 	import com.thaumaturgistgames.flakit.Library;
 	import net.flashpunk.graphics.Tilemap;
+	import net.flashpunk.Sfx;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
 	
@@ -20,8 +21,9 @@ package com.thaumaturgistgames.welcomehome
 		private var movement:Point;
 		private var gravity:Number;
 		private var speed:Number;
-		private const MAX_SPEED:Number = 10;
+		private const MAX_SPEED:Number = 7;
 		private var jetpackForce:Number;
+		private var waterForce:Number;
 		
 		private var canMove:Boolean;
 		private var canJump:Boolean;
@@ -31,9 +33,12 @@ package com.thaumaturgistgames.welcomehome
 		private var inventory:Inventory;
 		private var canJetpack:Boolean;
 		
+		private var jetpackSfx:Sfx;
+		
 		public function Player(x:Number, y:Number) 
 		{
 			super();
+			name = "player";
 			
 			var img:Spritemap = new Spritemap(Library.getImage("graphics.dude.png").bitmapData, 64, 64);
 			img.add("idle", [0]);
@@ -57,14 +62,16 @@ package com.thaumaturgistgames.welcomehome
 			movement = new Point();
 			speed = 4.0;
 			gravity = .85;
+			waterForce = .6;
 			jetpackForce = 1;
 			
 			canMove = true;
 			canJump = false;
 			
 			colliders = new Vector.<String>();
-			colliders.push("temp");
 			colliders.push("cave");
+			
+			jetpackSfx = new Sfx(Library.getSound("audio.jetpack.mp3"));
 		}
 		
 		override public function added():void 
@@ -88,6 +95,7 @@ package com.thaumaturgistgames.welcomehome
 				if (Input.check(Key.D))
 				{
 					movement.x += speed;
+					trace(inventory.itemsCollected);
 				}
 				
 				if (Input.check(Key.A))
@@ -120,6 +128,16 @@ package com.thaumaturgistgames.welcomehome
 				{
 					movement.y -= jetpackForce;
 					animToPlay = "jetpackOn";
+			}
+			
+			if (Input.pressed(Key.SPACE))
+			{
+				jetpackSfx.loop(0.5);
+			}
+			
+			if (Input.released(Key.SPACE))
+			{
+				jetpackSfx.stop();
 				}
 			}
 			
