@@ -77,9 +77,9 @@
     <!-- example: <hidden path="..." /> -->
   </hiddenPaths>
   <!-- Executed before build -->
-  <preBuildCommand />
+  <preBuildCommand>lib/assets.bat</preBuildCommand>
   <!-- Executed after build -->
-  <postBuildCommand alwaysRun="False" />
+  <postBuildCommand alwaysRun="True" />
   <!-- Other project options -->
   <options>
     <option showHiddenPaths="False" />
