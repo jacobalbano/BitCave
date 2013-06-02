@@ -29,6 +29,7 @@ package com.thaumaturgistgames.welcomehome
 		private var animToPlay:String;
 		
 		private var inventory:Inventory;
+		private var canJetpack:Boolean;
 		
 		public function Player(x:Number, y:Number) 
 		{
@@ -97,20 +98,39 @@ package com.thaumaturgistgames.welcomehome
 			
 			animToPlay = movement.x == 0 ? "idle" : "walk";
 			
+			if (Input.pressed(Key.SPACE))
+			{
+				if (canJump)
+				{
+					jump();
+				}
+			}
+			
+			if (Input.released(Key.SPACE))
+			{
+				if (!canJump)
+				{
+					canJetpack = true;
+				}
+			}
+			
 			if (Input.check(Key.SPACE))
 			{
-				movement.y -= jetpackForce;
-				animToPlay = "jetpackOn";
+				if (canJetpack)
+				{
+					movement.y -= jetpackForce;
+					animToPlay = "jetpackOn";
+				}
 			}
 			
 			movement.y += gravity;
 			
 			var max:Number = MAX_SPEED;
 			
-			if (collide("water", x, y))
-			{
-				max = max / 4;
-			}
+			//if (collide("water", x, y))
+			//{
+				//max = max / 2;
+			//}
 			
 			movement.x = FP.clamp(movement.x, -max, max);
 			movement.y = FP.clamp(movement.y, -max, max);	
@@ -131,7 +151,11 @@ package com.thaumaturgistgames.welcomehome
 		
 		override public function moveCollideY(e:Entity):Boolean 
 		{
-			canJump = true;
+			if (collideWith(e, x, y + 10))
+			{
+				canJump = true;
+				canJetpack = false;
+			}
 			
 			movement.y = 0;
 			
@@ -143,7 +167,7 @@ package com.thaumaturgistgames.welcomehome
 			if (canJump)
 			{
 				canJump = false;
-				movement.y = -10;
+				movement.y = -32;
 			}
 		}
 		
