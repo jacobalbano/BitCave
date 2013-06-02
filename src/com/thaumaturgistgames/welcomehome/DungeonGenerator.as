@@ -19,6 +19,7 @@ package com.thaumaturgistgames.welcomehome
 	import net.flashpunk.graphics.TiledSpritemap;
 	import net.flashpunk.graphics.Tilemap;
 	import net.flashpunk.masks.Grid;
+	import net.flashpunk.Sfx;
     
     //CLICK TO GENERATE A NEW MAZE!
     public class DungeonGenerator extends Sprite
@@ -52,6 +53,8 @@ package com.thaumaturgistgames.welcomehome
         public function DungeonGenerator()
         {
             generate();
+			
+			new Sfx(Library.getSound("audio.ambiance.mp3")).loop(1);
         }
 		
         public function generate():void

@@ -28,7 +28,7 @@ package com.thaumaturgistgames.welcomehome
 			
 			makeBackdrops(mementos.length <= 0 ? 1 : mementos.length >= 5 ? 5 : mementos.length);
 			
-			var e:Entity = add(new Player(100, 400));
+			var e:Entity = add(new Player(100, 400, false));
 			e.layer = PLAYER_LAYER;
 			
 			add(new House(400, 226, mementos));

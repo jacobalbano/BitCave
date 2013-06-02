@@ -42,7 +42,11 @@
         <image>graphics/dungeon/tiles.png</image>
     </images>
     <sounds>
+        <sound>audio/ambiance.mp3</sound>
+        <sound>audio/enterWater.mp3</sound>
         <sound>audio/jetpack.mp3</sound>
+        <sound>audio/leaveWater.mp3</sound>
+        <sound>audio/pickup.mp3</sound>
     </sounds>
     <xmls>
         <xml>Library.xml</xml>

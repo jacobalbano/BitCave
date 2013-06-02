@@ -56,50 +56,50 @@ package
 			
 			oWorld.removeAll();
 			
-			//var bd1:Backdrop = new Backdrop(Library.getImage("graphics.dungeon.backdropStatic.png").bitmapData, false, false);
-			//bd1.scrollX = bd1.scrollY = 0;
-			//oWorld.addGraphic(bd1);
-			//
-			//var bd2:Backdrop = new Backdrop(Library.getImage("graphics.dungeon.backdrop2.png").bitmapData);
-			//bd2.scrollX = 0.04;
-			//bd2.scrollY = 0.04;
-			//bd1.alpha = 0.75;
-			//oWorld.addGraphic(bd2);
-			//
-			//var bd3:Backdrop = new Backdrop(Library.getImage("graphics.dungeon.backdrop1.png").bitmapData, true, false);
-			//bd3.scrollX = 0.05;
-			//bd3.scrollY = 0;
-			//oWorld.addGraphic(bd3);
-			//
-			//var dungeon:DungeonGenerator = new DungeonGenerator();
-			//oWorld.add(dungeon.cave);
-			//var p:Point = dungeon.spawnPoint;
-			//
-			//var player:Player = new Player(p.x, p.y);
-			//oWorld.add(player);
+			var bd1:Backdrop = new Backdrop(Library.getImage("graphics.dungeon.backdropStatic.png").bitmapData, false, false);
+			bd1.scrollX = bd1.scrollY = 0;
+			oWorld.addGraphic(bd1);
+			
+			var bd2:Backdrop = new Backdrop(Library.getImage("graphics.dungeon.backdrop2.png").bitmapData);
+			bd2.scrollX = 0.04;
+			bd2.scrollY = 0.04;
+			bd1.alpha = 0.75;
+			oWorld.addGraphic(bd2);
+			
+			var bd3:Backdrop = new Backdrop(Library.getImage("graphics.dungeon.backdrop1.png").bitmapData, true, false);
+			bd3.scrollX = 0.05;
+			bd3.scrollY = 0;
+			oWorld.addGraphic(bd3);
+			
+			var dungeon:DungeonGenerator = new DungeonGenerator();
+			oWorld.add(dungeon.cave);
+			var p:Point = dungeon.spawnPoint;
+			
+			var player:Player = new Player(p.x, p.y, true);
+			oWorld.add(player);
 			//player.addInventory();
-			//
-			//oWorld.add(dungeon.water);
-			//
-			//for each (var fire:Campfire in dungeon.campfires) 
-			//{
-				//oWorld.add(fire);
-			//}
-			//
-			//for each (var memento:Entity in dungeon.mementos) 
-			//{
-				//oWorld.add(memento);
-			//}
-			//
-			//for each (var bound:Entity in dungeon.bounds)
-			//{
-				//oWorld.add(bound);
-			//}
-			//
-			//oWorld.add(new MiniMap(dungeon.minimap));
+			
+			oWorld.add(dungeon.water);
+			
+			for each (var fire:Campfire in dungeon.campfires) 
+			{
+				oWorld.add(fire);
+			}
+			
+			for each (var memento:Entity in dungeon.mementos) 
+			{
+				oWorld.add(memento);
+			}
+			
+			for each (var bound:Entity in dungeon.bounds)
+			{
+				oWorld.add(bound);
+			}
+			
+			oWorld.add(new MiniMap(dungeon.minimap));
 			
 			
-			FP.world = oWorld = new OutsideWorld(["roses", "photo", "ring", "loveLetter", "lipstick"]);
+			//FP.world = oWorld = new OutsideWorld(["roses", "photo", "ring", "loveLetter", "lipstick"]);
 		}
 	}
 

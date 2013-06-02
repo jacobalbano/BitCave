@@ -41,8 +41,9 @@ package com.thaumaturgistgames.welcomehome
 		private var emitter:Emitter;
 		private var animation:Spritemap;
 		private var wet:Number;
+		private var hasInventory:Boolean;
 		
-		public function Player(x:Number, y:Number) 
+		public function Player(x:Number, y:Number, hasInventory:Boolean) 
 		{
 			super();
 			name = "player";
@@ -90,16 +91,15 @@ package com.thaumaturgistgames.welcomehome
 			colliders.push("cave", "ground", "houseInterior");
 			
 			jetpackSfx = new Sfx(Library.getSound("audio.jetpack.mp3"));
+			
+			this.hasInventory = hasInventory;
 		}
 		
 		override public function added():void 
 		{
 			super.added();
-		}
-		
-		public function addInventory():void
-		{
-			if (world)
+			
+			if (hasInventory)
 			{
 				world.add(inventory = new Inventory());
 			}
@@ -178,10 +178,19 @@ package com.thaumaturgistgames.welcomehome
 			
 			if (collide("water", x, y))
 			{
+				if (wet != MAX_WET_TIMER)
+				{
+					new Sfx(Library.getSound("audio.enterWater.mp3")).play(0.2);
+				}
 				wet = MAX_WET_TIMER;
 			}
 			else
 			{
+				if (wet >= MAX_WET_TIMER)
+				{
+					new Sfx(Library.getSound("audio.leaveWater.mp3")).play(0.2);
+				}
+				
 				if (wet --> 0)
 				{
 					emitter.emit("splash", 0, 0);
@@ -214,6 +223,7 @@ package com.thaumaturgistgames.welcomehome
 				{
 					inventory.addItem(m.filename);
 					world.remove(m);
+					new Sfx(Library.getSound("audio.pickup.mp3")).play(0.35);
 				}
 			}
 			
