@@ -87,7 +87,7 @@ package com.thaumaturgistgames.welcomehome
 			canMove = true;
 			
 			colliders = new Vector.<String>();
-			colliders.push("cave");
+			colliders.push("cave", "ground", "houseInterior");
 			
 			jetpackSfx = new Sfx(Library.getSound("audio.jetpack.mp3"));
 		}
@@ -95,8 +95,24 @@ package com.thaumaturgistgames.welcomehome
 		override public function added():void 
 		{
 			super.added();
+		}
+		
+		public function addInventory():void
+		{
+			if (world)
+			{
+				world.add(inventory = new Inventory());
+			}
+		}
+		
+		override public function removed():void 
+		{
+			if (inventory && inventory.world)
+			{
+				world.remove(inventory);
+			}
 			
-			 world.add(inventory = new Inventory());
+			super.removed();
 		}
 		
 		override public function update():void 
@@ -125,7 +141,7 @@ package com.thaumaturgistgames.welcomehome
 			
 			if (Input.pressed(Key.SPACE))
 			{
-				if (collide("cave", x, y + 1))
+				if (collideTypes(["cave", "ground", "houseInterior"], x, y + 1))
 				{
 					jump();
 				}
