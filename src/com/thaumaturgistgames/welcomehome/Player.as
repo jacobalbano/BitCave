@@ -21,11 +21,12 @@ package com.thaumaturgistgames.welcomehome
 	 */
 	public class Player extends XMLEntity 
 	{
+		private const MAX_SPEED:Number = 7;
+		static private const MAX_WET_TIMER:Number = 15;
+		
 		private var movement:Point;
 		private var gravity:Number;
 		private var speed:Number;
-		private const MAX_SPEED:Number = 7;
-		static private const MAX_WET_TIMER:Number = 15;
 		private var maxSpeed:Number;
 		private var jetpackForce:Number;
 		private var waterForce:Number;
@@ -61,11 +62,19 @@ package com.thaumaturgistgames.welcomehome
 			animation.play(animToPlay);
 			
 			emitter = new Emitter(new BitmapData(2, 2, false, 0x0080FF));
+			emitter.relative = false;
+			
+			emitter.newType("drip");
+			emitter.setGravity("drip", 1);
+			emitter.setMotion("drip", 0, 25, 0.5, 360, 0, 0, Ease.quintOut);
+			emitter.setAlpha("drip", 1, 0);
+			emitter.setColor("drip", 0x0080FF, 0x93C9FFF);
+			
+			emitter.setSource(new BitmapData(4, 4, false, 0x0080FF));
 			emitter.newType("splash");
 			emitter.setGravity("splash", 1);
-			emitter.setMotion("splash", 0, 25, 0.5, 360, 0, 0, Ease.quintOut);
+			emitter.setMotion("splash", 0, 20, 0.5, 180);
 			emitter.setAlpha("splash", 1, 0);
-			emitter.setColor("splash", 0x0080FF, 0x93C9FFF);
 			
 			addGraphic(emitter);
 			addGraphic(animation);
@@ -162,13 +171,21 @@ package com.thaumaturgistgames.welcomehome
 			
 			if (collide("water", x, y))
 			{
+				if (wet < MAX_WET_TIMER)
+				{
+					for (var i:int = 0; i < 20; i++) 
+					{
+						emitter.emit("splash", x, y);
+					}
+				}
+				
 				wet = MAX_WET_TIMER;
 			}
 			else
 			{
 				if (wet --> 0)
 				{
-					emitter.emit("splash", 0, 0);
+					emitter.emit("drip", x, y);
 				}
 			}
 			

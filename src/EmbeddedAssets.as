@@ -19,6 +19,7 @@ package
 		[Embed(source = "../lib/graphics/kindling.png")] private const FLAKIT_ASSET$_1853219409:Class;
 		[Embed(source = "../lib/graphics/lipstick.png")] private const FLAKIT_ASSET$_558759954:Class;
 		[Embed(source = "../lib/graphics/loveLetter.png")] private const FLAKIT_ASSET$_2005218760:Class;
+		[Embed(source = "../lib/graphics/map.png")] private const FLAKIT_ASSET$_1820201831:Class;
 		[Embed(source = "../lib/graphics/photo.png")] private const FLAKIT_ASSET$_1352081153:Class;
 		[Embed(source = "../lib/graphics/ring.png")] private const FLAKIT_ASSET$983178900:Class;
 		[Embed(source = "../lib/graphics/roses.png")] private const FLAKIT_ASSET$_727175355:Class;
@@ -38,6 +39,7 @@ package
 			Library.addImage(new String("graphics/kindling.png").split("/").join("."), new FLAKIT_ASSET$_1853219409);
 			Library.addImage(new String("graphics/lipstick.png").split("/").join("."), new FLAKIT_ASSET$_558759954);
 			Library.addImage(new String("graphics/loveLetter.png").split("/").join("."), new FLAKIT_ASSET$_2005218760);
+			Library.addImage(new String("graphics/map.png").split("/").join("."), new FLAKIT_ASSET$_1820201831);
 			Library.addImage(new String("graphics/photo.png").split("/").join("."), new FLAKIT_ASSET$_1352081153);
 			Library.addImage(new String("graphics/ring.png").split("/").join("."), new FLAKIT_ASSET$983178900);
 			Library.addImage(new String("graphics/roses.png").split("/").join("."), new FLAKIT_ASSET$_727175355);
