@@ -7,6 +7,7 @@ package com.thaumaturgistgames.welcomehome
 	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Emitter;
 	import net.flashpunk.graphics.Image;
+	import net.flashpunk.graphics.ParticleType;
 	import net.flashpunk.graphics.Spritemap;
 	import com.thaumaturgistgames.flakit.Library;
 	import net.flashpunk.graphics.Tilemap;
@@ -54,6 +55,7 @@ package com.thaumaturgistgames.welcomehome
 		private const REG_TEMP_DEC:Number = 0.000275;
 		private const WET_TEMP_DEC:Number = 0.0010;
 		private var ambiance:Sfx;
+		private var lastPosition:Point;
 		
 		public function Player(x:Number, y:Number, hasHud:Boolean) 
 		{
@@ -61,6 +63,8 @@ package com.thaumaturgistgames.welcomehome
 			name = "player";
 			type = "player";
 			wet = 0;
+			
+			lastPosition = new Point();
 			
 			animation = new Spritemap(Library.getImage("graphics.dude.png").bitmapData, 64, 64);
 			animation.add("idle", [0]);
@@ -85,7 +89,7 @@ package com.thaumaturgistgames.welcomehome
 			emitter.setSource(new BitmapData(4, 4, false, 0x0080FF));
 			emitter.newType("splash");
 			emitter.setGravity("splash", 1);
-			emitter.setMotion("splash", 0, 20, 0.5, 180);
+			//	set motion later
 			emitter.setAlpha("splash", 1, 0);
 			emitter.setColor("splash", 0x0080FF, 0x93C9FFF);
 			
@@ -238,6 +242,9 @@ package com.thaumaturgistgames.welcomehome
 			
 			updateWater();
 			
+			lastPosition.x = x;
+			lastPosition.y = y;
+			
 			movement.x = FP.clamp(movement.x, -maxSpeed, maxSpeed);
 			movement.y = FP.clamp(movement.y, -maxSpeed, maxSpeed);	
 			
@@ -313,6 +320,21 @@ package com.thaumaturgistgames.welcomehome
 		
 		private function updateWater():void
 		{
+			function splash():void
+			{
+				var a:Number = FP.angle(x, y, lastPosition.x, lastPosition.y);
+				trace(a);
+				emitter.setMotion("splash", a - 90, 20, 0.5, 180);
+				
+				if (wet < MAX_WET_TIMER)
+				{
+					for (var i:int = 0; i < 20; i++) 
+					{
+						emitter.emit("splash", x, y);
+					}
+				}
+			}
+			
 			if (collide("water", x, y))
 			{
 				bodyTemperature -= WET_TEMP_DEC;
@@ -323,13 +345,7 @@ package com.thaumaturgistgames.welcomehome
 					maxSpeed = WATER_SPEED;
 				}
 				
-				if (wet < MAX_WET_TIMER)
-				{
-					for (var i:int = 0; i < 20; i++) 
-					{
-						emitter.emit("splash", x, y);
-					}
-				}
+				splash();
 				
 				wet = MAX_WET_TIMER;
 			}
@@ -340,10 +356,7 @@ package com.thaumaturgistgames.welcomehome
 					new Sfx(Library.getSound("audio.leaveWater.mp3")).play(0.1);
 					maxSpeed = MAX_SPEED;
 					
-					for (i = 0; i < 20; i++) 
-					{
-						emitter.emit("splash", x, y);
-					}
+					splash();
 				}
 				
 				if (wet --> 0)
