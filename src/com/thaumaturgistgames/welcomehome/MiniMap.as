@@ -37,6 +37,7 @@ package com.thaumaturgistgames.welcomehome
 			icon.setHitboxTo(icon.graphic);
 			icon.x = FP.screen.width - ((icon.graphic as Image).width + 16);
 			icon.y = 16;
+			layer = -1000;
 			icon.graphic["alpha"] = 0.5;
 		}
 		

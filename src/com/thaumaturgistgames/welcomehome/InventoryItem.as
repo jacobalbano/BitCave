@@ -41,6 +41,7 @@ package com.thaumaturgistgames.welcomehome
 			previewing = false;
 			
 			graphic.scrollX = graphic.scrollY = 0;
+			layer = -1000;
 			graphic["alpha"] = 0.75;
 		}
 		
@@ -83,9 +84,7 @@ package com.thaumaturgistgames.welcomehome
 				{
 					if (!collidePoint(x, y, Input.mouseX, Input.mouseY))
 					{
-						var tweenOut:VarTween = new VarTween(null, Tween.ONESHOT);
-						tweenOut.tween(largeView, "alpha", 0, 0.2);			
-						addTween(tweenOut, true);
+						fadeOut();
 					}
 				}
 				
@@ -99,6 +98,17 @@ package com.thaumaturgistgames.welcomehome
 					}
 				}
 			}
+			else
+			{
+				fadeOut();
+			}
+		}
+		
+		private function fadeOut():void 
+		{
+			var tweenOut:VarTween = new VarTween(null, Tween.ONESHOT);
+			tweenOut.tween(largeView, "alpha", 0, 0.2);			
+			addTween(tweenOut, true);
 		}
 	}
 

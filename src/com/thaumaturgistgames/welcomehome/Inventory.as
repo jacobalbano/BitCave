@@ -54,7 +54,7 @@ package com.thaumaturgistgames.welcomehome
 		{
 			super.added();
 			
-			layer = world.layerNearest
+			layer = -1000;
 		}
 		
 		override public function update():void 
@@ -88,6 +88,12 @@ package com.thaumaturgistgames.welcomehome
 			{
 				return;
 			}
+			
+			var to:Number = y;
+			y -= 15;
+			var move:VarTween = new VarTween(null, ONESHOT);
+			move.tween(this, "y", to, 1, Ease.bounceOut);
+			addTween(move, true);
 			
 			var item:InventoryItem = new InventoryItem(imgFilename, items.length, this);
 			items.push(item);
