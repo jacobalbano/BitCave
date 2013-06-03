@@ -45,9 +45,15 @@ package com.thaumaturgistgames.welcomehome
 		private var animation:Spritemap;
 		private var wet:Number;
 		private var light:TileLight;
-		private var hasInventory:Boolean;
+		private var hasHud:Boolean;
 		
-		public function Player(x:Number, y:Number, hasInventory:Boolean) 
+		private var thermometer:Thermometer;
+		private var bodyTemp:Number;
+		private const REG_TEMP_DEC:Number = 0.000275;
+		private const WET_TEMP_DEC:Number = 0.0010;
+		private var ambiance:Sfx;
+		
+		public function Player(x:Number, y:Number, hasHud:Boolean) 
 		{
 			super();
 			name = "player";
@@ -106,7 +112,9 @@ package com.thaumaturgistgames.welcomehome
 			jetpackSfx = new Sfx(Library.getSound("audio.jetpack.mp3"));
 			
 			addResponse(TileLighting.RECIEVE_LIGHT, onRecieveLight);
-			this.hasInventory = hasInventory;
+			this.hasHud = hasHud;
+			
+			bodyTemp = 1;
 		}
 		
 		private function getLight():void 
@@ -129,10 +137,14 @@ package com.thaumaturgistgames.welcomehome
 		{
 			super.added();
 			
-			if (hasInventory)
+			if (hasHud)
 			{
 				world.add(inventory = new Inventory());
+				world.add(thermometer = new Thermometer(200, 200));
+				ambiance = new Sfx(Library.getSound("audio.ambiance.mp3"));
+				ambiance.loop(1);
 			}
+			
 		}
 		
 		override public function removed():void 
@@ -142,11 +154,23 @@ package com.thaumaturgistgames.welcomehome
 				world.remove(inventory);
 			}
 			
+			jetpackSfx.stop();
+			ambiance.stop();
 			super.removed();
 		}
 		
 		override public function update():void 
 		{
+			if (thermometer)
+			{
+				bodyTemperature -= REG_TEMP_DEC;
+				
+				if (bodyTemperature <= 0)
+				{
+					Game.instance.onReload();
+				}
+			}
+			
 			super.update();
 			
 			FP.camera.x = x - FP.halfWidth;
@@ -208,6 +232,12 @@ package com.thaumaturgistgames.welcomehome
 			
 			if (collide("water", x, y))
 			{
+				bodyTemperature -= WET_TEMP_DEC;
+				if (wet != MAX_WET_TIMER)
+				{
+					new Sfx(Library.getSound("audio.enterWater.mp3")).play(0.1);
+				}
+				
 				if (wet < MAX_WET_TIMER)
 				{
 					for (var i:int = 0; i < 20; i++) 
@@ -222,7 +252,12 @@ package com.thaumaturgistgames.welcomehome
 			{
 				if (wet >= MAX_WET_TIMER)
 				{
-					new Sfx(Library.getSound("audio.leaveWater.mp3")).play(0.2);
+					new Sfx(Library.getSound("audio.leaveWater.mp3")).play(0.1);
+					
+					for (i = 0; i < 20; i++) 
+					{
+						emitter.emit("splash", x, y);
+					}
 				}
 				
 				if (wet --> 0)
@@ -267,7 +302,7 @@ package com.thaumaturgistgames.welcomehome
 				{
 					inventory.addItem(m.filename);
 					world.remove(m);
-					new Sfx(Library.getSound("audio.pickup.mp3")).play(0.35);
+					new Sfx(Library.getSound("audio.pickup.mp3")).play(0.25);
 				}
 			}
 			
@@ -294,6 +329,15 @@ package com.thaumaturgistgames.welcomehome
 			maxSpeed = 100;
 		}
 		
+		public function get bodyTemperature():Number
+		{
+			return bodyTemp;
+		}
+		public function set bodyTemperature(val:Number):void
+		{
+			bodyTemp = FP.clamp(val, 0, 1);
+			thermometer.setTemp(bodyTemp);
+		}
 	}
 
 }

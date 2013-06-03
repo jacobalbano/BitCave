@@ -46,7 +46,7 @@ package com.thaumaturgistgames.welcomehome
 		static public const WATER:Number = 0x0080FF;
 		static public const AIR:Number = 0x000000;
 		static public const CAMPFIRE:Number = 0xFF9900;
-		static public const MEMENTO:Number = 0xFF00FF;
+		static public const MEMENTO:Number = 0x00FF00;
 		static public const TILE_SIZE:Number = 32;
         
         public var data:BitmapData;
@@ -54,8 +54,6 @@ package com.thaumaturgistgames.welcomehome
         public function DungeonGenerator()
         {
             generate();
-			
-			new Sfx(Library.getSound("audio.ambiance.mp3")).loop(1);
         }
 		
         public function generate():void
@@ -446,7 +444,24 @@ package com.thaumaturgistgames.welcomehome
 		
 		public function get minimap():Image
 		{
-			return new Image(data.clone());
+				var bmp:BitmapData = data.clone();
+				
+				for (var i:int = 0; i < bmp.width; i++) 
+				{
+						for (var j:int = 0; j < bmp.height; j++) 
+						{
+								switch (data.getPixel(i, j)) 
+								{
+										case 0xFF0000:
+											bmp.setPixel(i, j, ROCK);
+												break;
+										default:
+												break;
+								}
+						}
+				}
+				
+				return new Image(bmp);
 		}
 		
 		public function get campfires():Vector.<Campfire>

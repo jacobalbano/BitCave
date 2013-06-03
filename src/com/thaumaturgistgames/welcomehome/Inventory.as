@@ -47,18 +47,12 @@ package com.thaumaturgistgames.welcomehome
 			items = new Vector.<InventoryItem>();
 			
 			graphic.scrollX = graphic.scrollY = 0;
+			graphic["alpha"] = 0.75;
 		}
 		
 		override public function added():void 
 		{
 			super.added();
-			
-			// TODO: Take these functions out, and call them when the player picks them up in the world, yo.
-			//addItem("graphics.photo.png");
-			//addItem("graphics.loveLetter.png");
-			//addItem("graphics.ring.png");
-			//addItem("graphics.lipstick.png");
-			//addItem("graphics.roses.png");
 			
 			layer = world.layerNearest
 		}
@@ -66,11 +60,10 @@ package com.thaumaturgistgames.welcomehome
 		override public function update():void 
 		{
 			super.update();
+			layer = world.layerNearest;
 			
 			if (collidePoint(x, y, Input.mouseX, Input.mouseY))
 			{
-				//Input.mouseCursor = MouseCursor.BUTTON;
-				
 				if (Input.mousePressed)
 				{
 					_isOpen = !_isOpen;
@@ -82,10 +75,6 @@ package com.thaumaturgistgames.welcomehome
 					addTween(tween, true);
 				}
 			}
-			//else
-			//{
-			//	Input.mouseCursor = MouseCursor.ARROW;
-			//}
 			
 			for each (var i:InventoryItem in items)
 			{

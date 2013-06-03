@@ -15,6 +15,7 @@ package com.thaumaturgistgames.welcomehome
 	public class MiniMap extends XMLEntity
 	{
 		private var icon:Entity;
+		private const MAX_ALPHA:Number = 0.75;
 		
 		public function MiniMap(img:Image) 
 		{
@@ -34,7 +35,9 @@ package com.thaumaturgistgames.welcomehome
 			icon = new Entity(0, 0, new Image(Library.getImage("graphics.map.png").bitmapData));
 			icon.graphic.scrollX = icon.graphic.scrollY = 0;
 			icon.setHitboxTo(icon.graphic);
-			icon.x = FP.screen.width - (icon.graphic as Image).width;
+			icon.x = FP.screen.width - ((icon.graphic as Image).width + 16);
+			icon.y = 16;
+			icon.graphic["alpha"] = 0.5;
 		}
 		
 		override public function added():void 
@@ -52,8 +55,10 @@ package com.thaumaturgistgames.welcomehome
 		override public function update():void 
 		{
 			super.update();
+			layer = world.layerNearest;
+			icon.layer = world.layerNearest;
 			
-			if ((graphic as Image).alpha == 1)
+			if ((graphic as Image).alpha == MAX_ALPHA)
 			{
 				if (!icon.collidePoint(icon.x, icon.y, Input.mouseX, Input.mouseY))
 				{
@@ -68,7 +73,7 @@ package com.thaumaturgistgames.welcomehome
 				if (icon.collidePoint(icon.x, icon.y, Input.mouseX, Input.mouseY))
 				{
 					var tweenIn:VarTween = new VarTween(null, Tween.ONESHOT);
-					tweenIn.tween((graphic as Image), "alpha", 1, 0.4);			
+					tweenIn.tween((graphic as Image), "alpha", MAX_ALPHA, 0.4);			
 					addTween(tweenIn, true);
 				}
 			}

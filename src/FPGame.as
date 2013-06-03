@@ -10,6 +10,7 @@ package
 	import com.thaumaturgistgames.welcomehome.MiniMap;
 	import com.thaumaturgistgames.welcomehome.OutsideWorld;
 	import com.thaumaturgistgames.welcomehome.Player;
+	import com.thaumaturgistgames.welcomehome.Thermometer;
 	import flash.display.BitmapData;
 	import flash.geom.Point;
 	import net.flashpunk.Entity;
@@ -102,7 +103,6 @@ package
 			oWorld.add(dungeon.lighting);
 			
 			oWorld.add(new MiniMap(dungeon.minimap));
-			
 			
 			//FP.world = oWorld = new OutsideWorld(["roses", "photo", "ring", "loveLetter", "lipstick"]);
 		}

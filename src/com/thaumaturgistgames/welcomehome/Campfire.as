@@ -69,6 +69,7 @@ package com.thaumaturgistgames.welcomehome
 			if (FP.distance(x, y, player.x, player.y) <= 128)
 			{
 				light.enabled = true;
+				player.bodyTemperature += 0.001;
 				flames.emit("flame", centerX, centerY + 4);
 			}
 			else

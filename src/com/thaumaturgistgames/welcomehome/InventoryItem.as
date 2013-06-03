@@ -41,6 +41,7 @@ package com.thaumaturgistgames.welcomehome
 			previewing = false;
 			
 			graphic.scrollX = graphic.scrollY = 0;
+			graphic["alpha"] = 0.75;
 		}
 		
 		override public function added():void 
@@ -58,13 +59,21 @@ package com.thaumaturgistgames.welcomehome
 		
 		override public function removed():void 
 		{
-			world.(largeViewEnt);
+			// BUG: Got a weird crash here:
+			// "Filter operator not supported on type com.jacobalbano.punkutils.OgmoWorld."
+			if (world && largeViewEnt)
+			{
+				world.(largeViewEnt);
+			}
 			super.removed();
 		}
 		
 		override public function update():void 
 		{
 			super.update();
+			layer = world.layerNearest;
+			largeViewEnt.layer = world.layerNearest;
+			
 			x = parent.x + (28 + (slot * 50));
 			y = parent.y + (32);
 			
