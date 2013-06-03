@@ -60,7 +60,7 @@ package com.thaumaturgistgames.welcomehome
 			//addItem("graphics.lipstick.png");
 			//addItem("graphics.roses.png");
 			
-			layer = world.layerNearest
+			layer = -1000;
 		}
 		
 		override public function update():void 

@@ -41,6 +41,7 @@ package com.thaumaturgistgames.welcomehome
 			previewing = false;
 			
 			graphic.scrollX = graphic.scrollY = 0;
+			layer = -1000;
 		}
 		
 		override public function added():void 

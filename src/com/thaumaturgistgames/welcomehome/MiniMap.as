@@ -35,6 +35,7 @@ package com.thaumaturgistgames.welcomehome
 			icon.graphic.scrollX = icon.graphic.scrollY = 0;
 			icon.setHitboxTo(icon.graphic);
 			icon.x = FP.screen.width - (icon.graphic as Image).width;
+			layer = -1000;
 		}
 		
 		override public function added():void 
