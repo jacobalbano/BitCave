@@ -286,6 +286,7 @@ package com.thaumaturgistgames.welcomehome
 			if (collideWith(e, x, y + 10))
 			{
 				canJetpack = false;
+				jetpackSfx.stop();
 			}
 			
 			maxSpeed = MAX_SPEED;
