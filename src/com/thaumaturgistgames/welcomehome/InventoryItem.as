@@ -64,7 +64,7 @@ package com.thaumaturgistgames.welcomehome
 			// "Filter operator not supported on type com.jacobalbano.punkutils.OgmoWorld."
 			if (world && largeViewEnt)
 			{
-				world.(largeViewEnt);
+				world.remove(largeViewEnt);
 			}
 			super.removed();
 		}
@@ -84,9 +84,7 @@ package com.thaumaturgistgames.welcomehome
 				{
 					if (!collidePoint(x, y, Input.mouseX, Input.mouseY))
 					{
-						var tweenOut:VarTween = new VarTween(null, Tween.ONESHOT);
-						tweenOut.tween(largeView, "alpha", 0, 0.2);			
-						addTween(tweenOut, true);
+						fadeOut();
 					}
 				}
 				
@@ -100,6 +98,17 @@ package com.thaumaturgistgames.welcomehome
 					}
 				}
 			}
+			else
+			{
+				fadeOut();
+			}
+		}
+		
+		private function fadeOut():void 
+		{
+			var tweenOut:VarTween = new VarTween(null, Tween.ONESHOT);
+			tweenOut.tween(largeView, "alpha", 0, 0.2);			
+			addTween(tweenOut, true);
 		}
 	}
 

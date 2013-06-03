@@ -89,6 +89,12 @@ package com.thaumaturgistgames.welcomehome
 				return;
 			}
 			
+			var to:Number = y;
+			y -= 15;
+			var move:VarTween = new VarTween(null, ONESHOT);
+			move.tween(this, "y", to, 1, Ease.bounceOut);
+			addTween(move, true);
+			
 			var item:InventoryItem = new InventoryItem(imgFilename, items.length, this);
 			items.push(item);
 			world.add(item);

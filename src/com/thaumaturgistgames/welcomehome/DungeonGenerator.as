@@ -60,6 +60,8 @@ package com.thaumaturgistgames.welcomehome
         {
             data = createMaze(MAZE_WIDTH, MAZE_HEIGHT);
             data = carveDungeon(data, DUNGEON_EXPAND, PASS_1, PASS_2, PASS_3);
+			
+			var top:Point;
 			var bottom:int = 0;
 			
 			for (var j:int = 0; j < data.height; j++)
@@ -73,6 +75,14 @@ package com.thaumaturgistgames.welcomehome
 					
 					if (data.getPixel(i, j) == AIR)
 					{
+						if (top == null)
+						{
+							top = new Point(i, j);
+						}
+					}
+					
+					if (data.getPixel(i, j) == AIR)
+					{
 						bottom = j;
 					}
 				}
@@ -80,6 +90,14 @@ package com.thaumaturgistgames.welcomehome
 			
 			roofs = [];
 			floors = [];
+			
+			for (j = top.x; j < top.x + 5; j++)
+			{
+				for (i = top.y; i >= 0; i--)
+				{
+					data.setPixel(j, i, AIR);
+				}
+			}
 			
 			for (j = 0; j < data.height; j++)
 			{
