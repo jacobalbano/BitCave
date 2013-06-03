@@ -54,7 +54,7 @@ package com.thaumaturgistgames.welcomehome
 		{
 			super.added();
 			
-			layer = world.layerNearest
+			layer = -1000;
 		}
 		
 		override public function update():void 
