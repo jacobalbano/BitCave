@@ -63,7 +63,7 @@ package com.thaumaturgistgames.welcomehome
 			// "Filter operator not supported on type com.jacobalbano.punkutils.OgmoWorld."
 			if (world && largeViewEnt)
 			{
-				world.(largeViewEnt);
+				world.remove(largeViewEnt);
 			}
 			super.removed();
 		}

@@ -23,15 +23,17 @@ package com.thaumaturgistgames.welcomehome
 	 */
 	public class Player extends XMLEntity 
 	{
-		private const MAX_SPEED:Number = 7;
+		private const MAX_SPEED:Number = 8;
+		private const WATER_SPEED:Number = 3;
 		static private const MAX_WET_TIMER:Number = 15;
+		private const REG_GRAVITY:Number = .85;
+		private const WATER_GRAVITY:Number = .5;
 		
 		private var movement:Point;
 		private var gravity:Number;
 		private var speed:Number;
 		private var maxSpeed:Number;
 		private var jetpackForce:Number;
-		private var waterForce:Number;
 		
 		private var canMove:Boolean;
 		private var colliders:Vector.<String>;
@@ -99,8 +101,7 @@ package com.thaumaturgistgames.welcomehome
 			
 			movement = new Point();
 			speed = 4.0;
-			gravity = .85;
-			waterForce = .6;
+			gravity = REG_GRAVITY;
 			jetpackForce = 1;
 			maxSpeed = MAX_SPEED;
 			
@@ -211,7 +212,7 @@ package com.thaumaturgistgames.welcomehome
 				{
 					movement.y -= jetpackForce;
 					animToPlay = "jetpackOn";
-					maxSpeed = MAX_SPEED;
+					//maxSpeed = MAX_SPEED;
 				}
 			}
 			
@@ -220,6 +221,11 @@ package com.thaumaturgistgames.welcomehome
 				if (canJetpack)
 				{
 					jetpackSfx.loop(0.5);
+					
+					if (collide("water", x, y))
+					{
+						maxSpeed = WATER_SPEED;
+					}
 				}
 			}
 			
@@ -230,41 +236,7 @@ package com.thaumaturgistgames.welcomehome
 			
 			movement.y += gravity;
 			
-			if (collide("water", x, y))
-			{
-				bodyTemperature -= WET_TEMP_DEC;
-				if (wet != MAX_WET_TIMER)
-				{
-					new Sfx(Library.getSound("audio.enterWater.mp3")).play(0.1);
-				}
-				
-				if (wet < MAX_WET_TIMER)
-				{
-					for (var i:int = 0; i < 20; i++) 
-					{
-						emitter.emit("splash", x, y);
-					}
-				}
-				
-				wet = MAX_WET_TIMER;
-			}
-			else
-			{
-				if (wet >= MAX_WET_TIMER)
-				{
-					new Sfx(Library.getSound("audio.leaveWater.mp3")).play(0.1);
-					
-					for (i = 0; i < 20; i++) 
-					{
-						emitter.emit("splash", x, y);
-					}
-				}
-				
-				if (wet --> 0)
-				{
-					emitter.emit("drip", x, y);
-				}
-			}
+			updateWater();
 			
 			movement.x = FP.clamp(movement.x, -maxSpeed, maxSpeed);
 			movement.y = FP.clamp(movement.y, -maxSpeed, maxSpeed);	
@@ -325,8 +297,8 @@ package com.thaumaturgistgames.welcomehome
 		
 		private function jump():void
 		{
-			movement.y = -12;
-			maxSpeed = 100;
+			movement.y = -(maxSpeed + 4);
+			maxSpeed = movement.y;
 		}
 		
 		public function get bodyTemperature():Number
@@ -337,6 +309,48 @@ package com.thaumaturgistgames.welcomehome
 		{
 			bodyTemp = FP.clamp(val, 0, 1);
 			thermometer.setTemp(bodyTemp);
+		}
+		
+		private function updateWater():void
+		{
+			if (collide("water", x, y))
+			{
+				bodyTemperature -= WET_TEMP_DEC;
+				
+				if (wet != MAX_WET_TIMER)
+				{
+					new Sfx(Library.getSound("audio.enterWater.mp3")).play(0.1);
+					maxSpeed = WATER_SPEED;
+				}
+				
+				if (wet < MAX_WET_TIMER)
+				{
+					for (var i:int = 0; i < 20; i++) 
+					{
+						emitter.emit("splash", x, y);
+					}
+				}
+				
+				wet = MAX_WET_TIMER;
+			}
+			else
+			{
+				if (wet >= MAX_WET_TIMER)
+				{
+					new Sfx(Library.getSound("audio.leaveWater.mp3")).play(0.1);
+					maxSpeed = MAX_SPEED;
+					
+					for (i = 0; i < 20; i++) 
+					{
+						emitter.emit("splash", x, y);
+					}
+				}
+				
+				if (wet --> 0)
+				{
+					emitter.emit("drip", x, y);
+				}
+			}
 		}
 	}
 
