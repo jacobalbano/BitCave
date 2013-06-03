@@ -100,10 +100,9 @@ package
 			}
 			
 			oWorld.add(dungeon.lighting);
+			oWorld.add(dungeon.trigger);
 			
 			oWorld.add(new MiniMap(dungeon.minimap));
-			
-			//FP.world = oWorld = new OutsideWorld(["roses", "photo", "ring", "loveLetter", "lipstick"]);
 		}
 	}
 

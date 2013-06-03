@@ -323,9 +323,7 @@ package com.thaumaturgistgames.welcomehome
 		{
 			function splash():void
 			{
-				var a:Number = FP.angle(x, y, lastPosition.x, lastPosition.y);
-				trace(a);
-				emitter.setMotion("splash", a - 90, 20, 0.5, 180);
+				emitter.setMotion("splash", FP.angle(x, y, lastPosition.x, lastPosition.y) - 90, 20, 0.5, 180);
 				
 				if (wet < MAX_WET_TIMER)
 				{

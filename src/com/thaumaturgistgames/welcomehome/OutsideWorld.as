@@ -7,6 +7,8 @@ package com.thaumaturgistgames.welcomehome
 	import net.flashpunk.Graphic;
 	import net.flashpunk.graphics.Backdrop;
 	import net.flashpunk.graphics.Image;
+	import net.flashpunk.Tween;
+	import net.flashpunk.tweens.misc.VarTween;
 	
 	/**
 	 * ...
@@ -28,10 +30,17 @@ package com.thaumaturgistgames.welcomehome
 			
 			makeBackdrops(mementos.length <= 0 ? 1 : mementos.length >= 5 ? 5 : mementos.length);
 			
-			var e:Entity = add(new Player(100, 400, false));
-			e.layer = PLAYER_LAYER;
+			var player:Entity = add(new Player(100, 400, false));
+			player.layer = PLAYER_LAYER;	//	lol a poem
 			
 			add(new House(400, 226, mementos));
+			
+			var e:Entity = addGraphic(Image.createRect(FP.width, FP.height));
+			e.layer = -1000;
+			e.graphic.scrollX = e.graphic.scrollY = 0;
+			var tween:VarTween = new VarTween(function():void { remove(e); }, ONESHOT);
+			tween.tween(e.graphic, "alpha", 0, 2);
+			addTween(tween, true);
 		}
 		
 		override public function update():void 

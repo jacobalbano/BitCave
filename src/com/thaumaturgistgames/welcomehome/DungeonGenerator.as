@@ -1,5 +1,6 @@
 package com.thaumaturgistgames.welcomehome
 {
+	import com.jacobalbano.punkutils.DeferredCallback;
 	import com.thaumaturgistgames.flakit.Engine;
 	import com.thaumaturgistgames.flakit.Library;
 	import com.thaumaturgistgames.flakit.loader.ImageLoader;
@@ -19,6 +20,8 @@ package com.thaumaturgistgames.welcomehome
 	import net.flashpunk.graphics.TiledSpritemap;
 	import net.flashpunk.graphics.Tilemap;
 	import net.flashpunk.masks.Grid;
+	import net.flashpunk.Tween;
+	import net.flashpunk.tweens.misc.VarTween;
 	import tilelighting.TileLighting;
 	import net.flashpunk.Sfx;
     
@@ -29,6 +32,7 @@ package com.thaumaturgistgames.welcomehome
 		private var tf:TextField;
 		private var roofs:Array;
 		private var floors:Array;
+		private var _trigger:DeferredCallback;
         //Dungeon settings
         public const MAZE_WIDTH:int = 10;
         public const MAZE_HEIGHT:int = 7;
@@ -78,6 +82,38 @@ package com.thaumaturgistgames.welcomehome
 						if (top == null)
 						{
 							top = new Point(i, j);
+							_trigger = new DeferredCallback(function():Boolean
+							{
+								//	some devilry here
+								var self:Object = this;
+								var This:DeferredCallback = self;
+								
+								if (This.collide("player", This.x, This.y))
+								{
+									var e:Entity = This.world.addGraphic(Image.createRect(FP.width, FP.height, 0xFFFFFF, 0));
+									e.layer = -1000;
+									e.graphic.scrollX = e.graphic.scrollY = 0;
+									var player:Player = This.world.getInstance("player") as Player;
+									
+									var tween:VarTween = new VarTween(function():void
+									{
+										FP.world = new OutsideWorld(player.mementosCollected);
+										
+									}, Tween.ONESHOT);
+									
+									tween.tween(e.graphic, "alpha", 1, 2);
+									This.world.addTween(tween, true);
+									
+									return true;
+								}
+								
+								return false;
+							});
+							
+							trigger.width = 5 * TILE_SIZE;
+							trigger.height = j * TILE_SIZE;
+							trigger.x = i * TILE_SIZE;
+							trigger.y = 0;
 						}
 					}
 					
@@ -554,6 +590,11 @@ package com.thaumaturgistgames.welcomehome
 			result.push(b);
 			
 			return result;
+		}
+		
+		public function get trigger():DeferredCallback
+		{
+			return _trigger;
 		}
     }
 }
