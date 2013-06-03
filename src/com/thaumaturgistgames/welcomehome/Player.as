@@ -45,8 +45,9 @@ package com.thaumaturgistgames.welcomehome
 		private var animation:Spritemap;
 		private var wet:Number;
 		private var light:TileLight;
+		private var hasInventory:Boolean;
 		
-		public function Player(x:Number, y:Number) 
+		public function Player(x:Number, y:Number, hasInventory:Boolean) 
 		{
 			super();
 			name = "player";
@@ -78,6 +79,7 @@ package com.thaumaturgistgames.welcomehome
 			emitter.setGravity("splash", 1);
 			emitter.setMotion("splash", 0, 20, 0.5, 180);
 			emitter.setAlpha("splash", 1, 0);
+			emitter.setColor("splash", 0x0080FF, 0x93C9FFF);
 			
 			addGraphic(emitter);
 			addGraphic(animation);
@@ -99,11 +101,12 @@ package com.thaumaturgistgames.welcomehome
 			canMove = true;
 			
 			colliders = new Vector.<String>();
-			colliders.push("cave");
+			colliders.push("cave", "ground", "houseInterior");
 			
 			jetpackSfx = new Sfx(Library.getSound("audio.jetpack.mp3"));
 			
 			addResponse(TileLighting.RECIEVE_LIGHT, onRecieveLight);
+			this.hasInventory = hasInventory;
 		}
 		
 		private function getLight():void 
@@ -125,7 +128,21 @@ package com.thaumaturgistgames.welcomehome
 		override public function added():void 
 		{
 			super.added();
-			world.add(inventory = new Inventory());
+			
+			if (hasInventory)
+			{
+				world.add(inventory = new Inventory());
+			}
+		}
+		
+		override public function removed():void 
+		{
+			if (inventory && inventory.world)
+			{
+				world.remove(inventory);
+			}
+			
+			super.removed();
 		}
 		
 		override public function update():void 
@@ -154,7 +171,7 @@ package com.thaumaturgistgames.welcomehome
 			
 			if (Input.pressed(Key.SPACE))
 			{
-				if (collide("cave", x, y + 1))
+				if (collideTypes(["cave", "ground", "houseInterior"], x, y + 1))
 				{
 					jump();
 				}
@@ -203,6 +220,11 @@ package com.thaumaturgistgames.welcomehome
 			}
 			else
 			{
+				if (wet >= MAX_WET_TIMER)
+				{
+					new Sfx(Library.getSound("audio.leaveWater.mp3")).play(0.2);
+				}
+				
 				if (wet --> 0)
 				{
 					emitter.emit("drip", x, y);
@@ -245,6 +267,7 @@ package com.thaumaturgistgames.welcomehome
 				{
 					inventory.addItem(m.filename);
 					world.remove(m);
+					new Sfx(Library.getSound("audio.pickup.mp3")).play(0.35);
 				}
 			}
 			

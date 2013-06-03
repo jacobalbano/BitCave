@@ -8,6 +8,7 @@ package
 	import com.thaumaturgistgames.welcomehome.DungeonGenerator;
 	import com.thaumaturgistgames.welcomehome.Inventory;
 	import com.thaumaturgistgames.welcomehome.MiniMap;
+	import com.thaumaturgistgames.welcomehome.OutsideWorld;
 	import com.thaumaturgistgames.welcomehome.Player;
 	import flash.display.BitmapData;
 	import flash.geom.Point;
@@ -76,7 +77,11 @@ package
 			var dungeon:DungeonGenerator = new DungeonGenerator();
 			oWorld.add(dungeon.cave);
 			var p:Point = dungeon.spawnPoint;
-			oWorld.add(new Player(p.x, p.y));
+			
+			var player:Player = new Player(p.x, p.y, true);
+			oWorld.add(player);
+			//player.addInventory();
+			
 			oWorld.add(dungeon.water);
 			
 			for each (var fire:Campfire in dungeon.campfires) 
@@ -98,6 +103,8 @@ package
 			
 			oWorld.add(new MiniMap(dungeon.minimap));
 			
+			
+			//FP.world = oWorld = new OutsideWorld(["roses", "photo", "ring", "loveLetter", "lipstick"]);
 		}
 	}
 

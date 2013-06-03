@@ -5,12 +5,27 @@
     <images>
         <image>graphics/dude.png</image>
         <image>graphics/inventory.png</image>
-        <image>graphics/lighting.png</image>
         <image>graphics/map.png</image>
         <image>graphics/testBackdrop.png</image>
+        <image>graphics/landscapes/5/clouds.png</image>
+        <image>graphics/landscapes/5/ground.png</image>
+        <image>graphics/landscapes/5/sky.png</image>
+        <image>graphics/landscapes/4/clouds.png</image>
+        <image>graphics/landscapes/4/ground.png</image>
+        <image>graphics/landscapes/4/sky.png</image>
+        <image>graphics/landscapes/3/clouds.png</image>
+        <image>graphics/landscapes/3/ground.png</image>
+        <image>graphics/landscapes/3/sky.png</image>
+        <image>graphics/landscapes/2/clouds.png</image>
+        <image>graphics/landscapes/2/ground.png</image>
+        <image>graphics/landscapes/2/sky.png</image>
+        <image>graphics/landscapes/1/clouds.png</image>
+        <image>graphics/landscapes/1/ground.png</image>
+        <image>graphics/landscapes/1/sky.png</image>
         <image>graphics/house/indoor.png</image>
-        <image>graphics/house/letter.png</image>
         <image>graphics/house/lipstick.png</image>
+        <image>graphics/house/loveLetter.png</image>
+        <image>graphics/house/mask.png</image>
         <image>graphics/house/outdoor.png</image>
         <image>graphics/house/photo.png</image>
         <image>graphics/house/ring.png</image>
@@ -27,7 +42,11 @@
         <image>graphics/dungeon/tiles.png</image>
     </images>
     <sounds>
+        <sound>audio/ambiance.mp3</sound>
+        <sound>audio/enterWater.mp3</sound>
         <sound>audio/jetpack.mp3</sound>
+        <sound>audio/leaveWater.mp3</sound>
+        <sound>audio/pickup.mp3</sound>
     </sounds>
     <xmls>
         <xml>Library.xml</xml>
