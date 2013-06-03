@@ -81,7 +81,6 @@ package
 			
 			var player:Player = new Player(p.x, p.y, true);
 			oWorld.add(player);
-			player.addInventory();
 			
 			oWorld.add(dungeon.water);
 			
