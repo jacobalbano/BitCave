@@ -19,6 +19,7 @@ package com.thaumaturgistgames.welcomehome
 	import net.flashpunk.graphics.TiledSpritemap;
 	import net.flashpunk.graphics.Tilemap;
 	import net.flashpunk.masks.Grid;
+	import tilelighting.TileLighting;
     
     //CLICK TO GENERATE A NEW MAZE!
     public class DungeonGenerator extends Sprite
@@ -45,7 +46,7 @@ package com.thaumaturgistgames.welcomehome
 		static public const AIR:Number = 0x000000;
 		static public const CAMPFIRE:Number = 0xFF9900;
 		static public const MEMENTO:Number = 0xFF00FF;
-		static private const TILE_SIZE:Number = 32;
+		static public const TILE_SIZE:Number = 32;
         
         public var data:BitmapData;
         
@@ -357,6 +358,30 @@ package com.thaumaturgistgames.welcomehome
             data.setPixel(x, y, solid ? 0xFFFFFF : AIR);
         }
 		
+		public function get lighting():TileLighting
+		{
+			var lighting:TileLighting = new TileLighting(Library.getImage("graphics.lighting.png").bitmapData, data.width * TILE_SIZE, data.height * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+			lighting.autoUpdate = true;
+			
+			for (var i:int = 0; i < data.width; i++) 
+			{
+				for (var j:int = 0; j < data.height; j++) 
+				{
+					var pixel:uint = data.getPixel(i, j);
+					
+					switch (pixel) 
+					{
+						case ROCK:
+							lighting.setBlockLight(i, j, true);
+							break;
+						default:
+					}
+				}
+			}
+			
+			return lighting;
+		}
+		
 		public function get spawnPoint():Point
 		{
 			var p:Point = FP.choose(floors).clone();
@@ -418,24 +443,7 @@ package com.thaumaturgistgames.welcomehome
 		
 		public function get minimap():Image
 		{
-			var bmp:BitmapData = data.clone();
-			
-			//for (var i:int = 0; i < bmp.width; i++) 
-			//{
-				//for (var j:int = 0; j < bmp.height; j++) 
-				//{
-					//switch (data.getPixel(i, j)) 
-					//{
-						//case ROCK:
-							//break;
-						//default:
-							//bmp.setPixel(i, j, 0x000000);
-							//break;
-					//}
-				//}
-			//}
-			
-			return new Image(bmp);
+			return new Image(data.clone());
 		}
 		
 		public function get campfires():Vector.<Campfire>
@@ -480,23 +488,24 @@ package com.thaumaturgistgames.welcomehome
 		public function get bounds():Vector.<Entity>
 		{
 			var result:Vector.<Entity> = new Vector.<Entity>();
+			var tiles:BitmapData = Library.getImage("graphics.dungeon.tiles.png").bitmapData;
 			
 			// 		Left
-			var lt:Tilemap = new Tilemap(Library.getImage("graphics.dungeon.tiles.png").bitmapData, TILE_SIZE * 20, TILE_SIZE * data.height, TILE_SIZE, TILE_SIZE);
+			var lt:Tilemap = new Tilemap(tiles, TILE_SIZE * 20, TILE_SIZE * data.height, TILE_SIZE, TILE_SIZE);
 			lt.floodFill(0, 0, 1);
 			
 			var l:Entity = new Entity( -lt.width, 0, lt);
 			l.setHitbox(lt.width, TILE_SIZE, lt.width - TILE_SIZE);
 			
 			//		Right
-			var rt:Tilemap = new Tilemap(Library.getImage("graphics.dungeon.tiles.png").bitmapData, TILE_SIZE * 20, TILE_SIZE * data.height, TILE_SIZE, TILE_SIZE);
+			var rt:Tilemap = new Tilemap(tiles, TILE_SIZE * 20, TILE_SIZE * data.height, TILE_SIZE, TILE_SIZE);
 			rt.floodFill(0, 0, 1);
 			
 			var r:Entity = new Entity((data.width * TILE_SIZE), 0, rt);
 			r.setHitbox(TILE_SIZE, rt.height);
 			
 			//		Bottom
-			var bt:Tilemap = new Tilemap(Library.getImage("graphics.dungeon.tiles.png").bitmapData, TILE_SIZE * data.width, TILE_SIZE * 20, TILE_SIZE, TILE_SIZE);
+			var bt:Tilemap = new Tilemap(tiles , TILE_SIZE * data.width, TILE_SIZE * 20, TILE_SIZE, TILE_SIZE);
 			bt.floodFill(0, 0, 1);
 			
 			var b:Entity = new Entity(0, data.height * TILE_SIZE, bt);

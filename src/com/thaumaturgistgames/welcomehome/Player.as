@@ -14,6 +14,8 @@ package com.thaumaturgistgames.welcomehome
 	import net.flashpunk.utils.Ease;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
+	import tilelighting.TileLight;
+	import tilelighting.TileLighting;
 	
 	/**
 	 * ...
@@ -42,6 +44,7 @@ package com.thaumaturgistgames.welcomehome
 		private var emitter:Emitter;
 		private var animation:Spritemap;
 		private var wet:Number;
+		private var light:TileLight;
 		
 		public function Player(x:Number, y:Number) 
 		{
@@ -99,13 +102,30 @@ package com.thaumaturgistgames.welcomehome
 			colliders.push("cave");
 			
 			jetpackSfx = new Sfx(Library.getSound("audio.jetpack.mp3"));
+			
+			addResponse(TileLighting.RECIEVE_LIGHT, onRecieveLight);
+		}
+		
+		private function getLight():void 
+		{
+			broadcastMessage(TileLighting.REQUEST_LIGHT, this);
+		}
+		
+		private function onRecieveLight(args:Array):void 
+		{
+			light = args[0] as TileLight;
+			if (light != null)
+			{
+				light.brightness = 2;
+				light.falloff = 4;
+				light.radius = 10;
+			}
 		}
 		
 		override public function added():void 
 		{
 			super.added();
-			
-			 world.add(inventory = new Inventory());
+			world.add(inventory = new Inventory());
 		}
 		
 		override public function update():void 
@@ -193,6 +213,16 @@ package com.thaumaturgistgames.welcomehome
 			movement.y = FP.clamp(movement.y, -maxSpeed, maxSpeed);	
 			
 			moveBy(movement.x, movement.y, colliders, true);
+			
+			if (light == null)
+			{
+				getLight();
+			}
+			else
+			{
+				light.column = Math.floor(x / DungeonGenerator.TILE_SIZE);
+				light.row = Math.floor(y / DungeonGenerator.TILE_SIZE);
+			}
 			
 			if (movement.x < 0)
 			{

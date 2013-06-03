@@ -18,8 +18,11 @@ package
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.graphics.Tilemap;
 	import net.flashpunk.masks.Grid;
+	import net.flashpunk.Tween;
+	import net.flashpunk.tweens.misc.Alarm;
 	import net.flashpunk.utils.Draw;
 	import net.flashpunk.utils.Key;
+	import tilelighting.TileLighting;
 	
 	/**
 	 * @author Jacob Albano
@@ -90,6 +93,8 @@ package
 			{
 				oWorld.add(bound);
 			}
+			
+			oWorld.add(dungeon.lighting);
 			
 			oWorld.add(new MiniMap(dungeon.minimap));
 			
