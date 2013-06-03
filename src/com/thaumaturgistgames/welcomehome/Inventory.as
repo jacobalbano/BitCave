@@ -29,6 +29,8 @@ package com.thaumaturgistgames.welcomehome
 		
 		private var items:Vector.<InventoryItem>;
 		
+		private var mementos:Array;
+		
 		public function Inventory() 
 		{
 			super();
@@ -48,6 +50,8 @@ package com.thaumaturgistgames.welcomehome
 			
 			graphic.scrollX = graphic.scrollY = 0;
 			graphic["alpha"] = 0.75;
+			
+			mementos = new Array();
 		}
 		
 		override public function added():void 
@@ -82,7 +86,7 @@ package com.thaumaturgistgames.welcomehome
 			}
 		}
 		
-		public function addItem(imgFilename:String):void
+		public function addItem(imgFilename:String, mementoName:String):void
 		{
 			if (items.length >= 5)
 			{
@@ -98,6 +102,7 @@ package com.thaumaturgistgames.welcomehome
 			var item:InventoryItem = new InventoryItem(imgFilename, items.length, this);
 			items.push(item);
 			world.add(item);
+			mementos.push(mementoName);
 		}
 		
 		public function get isOpen():Boolean
@@ -108,6 +113,11 @@ package com.thaumaturgistgames.welcomehome
 		public function get itemsCollected():uint
 		{
 			return items.length;
+		}
+		
+		public function get mementosCollected():Array
+		{
+			return mementos;
 		}
 	}
 

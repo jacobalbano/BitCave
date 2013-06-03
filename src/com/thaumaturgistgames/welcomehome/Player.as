@@ -272,7 +272,7 @@ package com.thaumaturgistgames.welcomehome
 				
 				if (Input.released(Key.E))
 				{
-					inventory.addItem(m.filename);
+					inventory.addItem(m.filename, m.name);
 					world.remove(m);
 					new Sfx(Library.getSound("audio.pickup.mp3")).play(0.25);
 				}
@@ -352,6 +352,11 @@ package com.thaumaturgistgames.welcomehome
 					emitter.emit("drip", x, y);
 				}
 			}
+		}
+		
+		public function get mementosCollected():Array
+		{
+			return inventory.mementosCollected;
 		}
 	}
 
