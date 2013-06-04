@@ -60,10 +60,18 @@ package com.thaumaturgistgames.welcomehome
 			bd1.scrollX = bd1.scrollY = 0;
 			addGraphic(bd1);
 			
+			
 			clouds = new Backdrop(Library.getImage("graphics.landscapes." + i + ".clouds.png").bitmapData, true, false);
 			clouds.scrollX = 0.04;
 			clouds.scrollY = 0;
 			addGraphic(clouds);
+			
+			var title:Image = new Image(Library.getImage("graphics.title.png").bitmapData);
+			title.scrollX = bd1.scrollY = 0;
+			title.centerOrigin();
+			title.x = FP.screen.width / 2;
+			title.y = title.height / 2;
+			addGraphic(title);
 			
 			var bd3:Backdrop = new Backdrop(Library.getImage("graphics.landscapes." + i + ".ground.png").bitmapData, true, false);
 			addGraphic(bd3);
