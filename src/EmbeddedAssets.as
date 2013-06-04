@@ -15,6 +15,7 @@ package
 		[Embed(source = "../lib/graphics/map.png")] private const FLAKIT_ASSET$_1820201831:Class;
 		[Embed(source = "../lib/graphics/testBackdrop.png")] private const FLAKIT_ASSET$_918861568:Class;
 		[Embed(source = "../lib/graphics/thermometer.png")] private const FLAKIT_ASSET$_728131488:Class;
+		[Embed(source = "../lib/graphics/title.png")] private const FLAKIT_ASSET$_1421282634:Class;
 		[Embed(source = "../lib/graphics/landscapes/5/clouds.png")] private const FLAKIT_ASSET$2082765622:Class;
 		[Embed(source = "../lib/graphics/landscapes/5/ground.png")] private const FLAKIT_ASSET$_1413016936:Class;
 		[Embed(source = "../lib/graphics/landscapes/5/sky.png")] private const FLAKIT_ASSET$_868123018:Class;
@@ -63,6 +64,7 @@ package
 			Library.addImage(new String("graphics/map.png").split("/").join("."), new FLAKIT_ASSET$_1820201831);
 			Library.addImage(new String("graphics/testBackdrop.png").split("/").join("."), new FLAKIT_ASSET$_918861568);
 			Library.addImage(new String("graphics/thermometer.png").split("/").join("."), new FLAKIT_ASSET$_728131488);
+			Library.addImage(new String("graphics/title.png").split("/").join("."), new FLAKIT_ASSET$_1421282634);
 			Library.addImage(new String("graphics/landscapes/5/clouds.png").split("/").join("."), new FLAKIT_ASSET$2082765622);
 			Library.addImage(new String("graphics/landscapes/5/ground.png").split("/").join("."), new FLAKIT_ASSET$_1413016936);
 			Library.addImage(new String("graphics/landscapes/5/sky.png").split("/").join("."), new FLAKIT_ASSET$_868123018);
