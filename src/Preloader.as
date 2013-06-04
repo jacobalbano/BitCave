@@ -4,6 +4,9 @@ package
 	import flash.display.MovieClip;
 	import flash.display.Shape;
 	import flash.events.Event;
+	import flash.events.MouseEvent;
+	import flash.text.TextField;
+	import flash.text.TextFormat;
 	import flash.utils.getDefinitionByName;
 	import flash.display.StageScaleMode;
 	import flash.display.StageQuality;
@@ -72,7 +75,22 @@ package
 					graphics.drawRect(0, 0, sw, sh);
 					graphics.endFill();
 					
-					startup();
+					stage.addEventListener(MouseEvent.CLICK, startup);
+					var tf:TextField = new TextField();
+					tf.defaultTextFormat = new TextFormat(null, 30, 0xFFFFFF, true);
+					tf.width = 1000;	//	dumb stupid
+					tf.text = "Click to start";
+					
+					tf.x = stage.stageWidth / 2 - tf.textWidth / 2;
+					tf.y = stage.stageHeight / 2 - tf.textHeight / 2;
+					tf.mouseEnabled = false;
+					addChild(tf);
+					
+					stage.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void
+					{
+						removeChild(tf);
+					});
+					
 			} else {
 					var p:Number = (loaderInfo.bytesLoaded / loaderInfo.bytesTotal);
 					
@@ -89,8 +107,9 @@ package
 			return (loaderInfo.bytesLoaded >= loaderInfo.bytesTotal);
 		}
 		
-		private function startup():void
+		private function startup(e:MouseEvent):void
 		{
+			stage.removeEventListener(MouseEvent.CLICK, startup);
 			stage.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
 			
 			var mainClass:Class = getDefinitionByName(mainClassName) as Class;

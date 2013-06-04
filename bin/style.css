@@ -1,0 +1,47 @@
+body {
+	background-color: black;
+}
+
+#title {
+	width: 1000px;
+	height: 40px;
+	margin-left: auto;
+	margin-right: auto;
+	background-repeat: no-repeat;
+	position: relative;
+}
+
+#title img
+{
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 25px;
+	position: absolute;
+	bottom: 0;
+}
+
+#title p {
+	color : white;
+	size: 100;
+}
+
+#game {
+	width: 640px;
+	height: 480px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+}
+
+#info {
+	width: 1000px;
+	height: 500px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#info p, ul
+{
+	margin-left: 40px;
+	color: white;
+}

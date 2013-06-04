@@ -1,6 +1,6 @@
 syntax: glob
 obj
-bin
+bin/*.swf
 tools
 lib/Library.xml
 src/EmbeddedAssets.as
