@@ -22,6 +22,7 @@ package com.thaumaturgistgames.welcomehome
 	import net.flashpunk.masks.Grid;
 	import net.flashpunk.Tween;
 	import net.flashpunk.tweens.misc.VarTween;
+	import net.flashpunk.tweens.sound.SfxFader;
 	import tilelighting.TileLighting;
 	import net.flashpunk.Sfx;
     
@@ -95,8 +96,19 @@ package com.thaumaturgistgames.welcomehome
 									e.graphic.scrollX = e.graphic.scrollY = 0;
 									var player:Player = This.world.getInstance("player") as Player;
 									
+									var jSfx:SfxFader = new SfxFader(player.jetpackSfx, player.jetpackSfx.stop, Tween.ONESHOT);
+									jSfx.fadeTo(0, 2);
+									This.world.addTween(jSfx);
+									
+									var aSfx:SfxFader = new SfxFader(player.ambiance, player.ambiance.stop, Tween.ONESHOT);
+									aSfx.fadeTo(0, 2);
+									This.world.addTween(aSfx);
+										
 									var tween:VarTween = new VarTween(function():void
 									{
+										jSfx.start();
+										aSfx.start();
+										FP.world.removeAll();
 										FP.world = new OutsideWorld(player.mementosCollected);
 										
 									}, Tween.ONESHOT);
