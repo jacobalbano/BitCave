@@ -12,6 +12,8 @@ package com.thaumaturgistgames.welcomehome
 	import com.thaumaturgistgames.flakit.Library;
 	import net.flashpunk.graphics.Tilemap;
 	import net.flashpunk.Sfx;
+	import net.flashpunk.Tween;
+	import net.flashpunk.tweens.misc.VarTween;
 	import net.flashpunk.utils.Ease;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
@@ -43,7 +45,9 @@ package com.thaumaturgistgames.welcomehome
 		private var inventory:Inventory;
 		private var canJetpack:Boolean;
 		
-		private var jetpackSfx:Sfx;
+		public var jetpackSfx:Sfx;
+		public var ambiance:Sfx;
+		
 		private var emitter:Emitter;
 		private var animation:Spritemap;
 		private var wet:Number;
@@ -54,7 +58,6 @@ package com.thaumaturgistgames.welcomehome
 		private var bodyTemp:Number;
 		private const REG_TEMP_DEC:Number = 0.000275;
 		private const WET_TEMP_DEC:Number = 0.0010;
-		private var ambiance:Sfx;
 		private var lastPosition:Point;
 		
 		public function Player(x:Number, y:Number, hasHud:Boolean) 
@@ -110,6 +113,7 @@ package com.thaumaturgistgames.welcomehome
 			maxSpeed = MAX_SPEED;
 			
 			canMove = true;
+			canJetpack = false;
 			
 			colliders = new Vector.<String>();
 			colliders.push("cave", "ground", "houseInterior");
@@ -172,7 +176,20 @@ package com.thaumaturgistgames.welcomehome
 				
 				if (bodyTemperature <= 0)
 				{
-					Game.instance.onReload();
+					this.active = false;
+					
+					var e:Entity = world.addGraphic(Image.createRect(FP.width, FP.height, 0xBBE8FF, 0));
+					e.layer = -1000;
+					e.graphic.scrollX = e.graphic.scrollY = 0;
+					
+					var tween:VarTween = new VarTween(function():void
+					{
+						Game.instance.onReload();
+						
+					}, Tween.ONESHOT);
+					
+					tween.tween(e.graphic, "alpha", 1, 2);
+					world.addTween(tween, true);
 				}
 			}
 			
@@ -216,7 +233,6 @@ package com.thaumaturgistgames.welcomehome
 				{
 					movement.y -= jetpackForce;
 					animToPlay = "jetpackOn";
-					//maxSpeed = MAX_SPEED;
 				}
 			}
 			
