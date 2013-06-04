@@ -88,7 +88,10 @@ package
 					
 					stage.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void
 					{
-						removeChild(tf);
+						if (tf && tf.parent)
+						{
+							removeChild(tf);
+						}
 					});
 					
 			} else {
